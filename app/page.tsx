@@ -1014,7 +1014,7 @@ export default function Home() {
                   <CheckCircle className="w-8 h-8 text-blue-400" />
                   <h3 className="text-xl font-bold text-white">Infrastructure Stability</h3>
                 </div>
-                <p className="text-gray-300 leading-relaxed">Successfully established a robust foundation with 52 fully functional requirements covering end-to-end bug reporting and secure user management.</p>
+                <p className="text-gray-300 leading-relaxed">Successfully established a robust foundation with fully functional requirements covering end-to-end bug reporting and secure user management.</p>
               </GlassCard>
               <GlassCard className="flex flex-col gap-4">
                 <div className="flex items-center gap-3">
