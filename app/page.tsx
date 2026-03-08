@@ -395,11 +395,13 @@ export default function Home() {
                   <Lightbulb className="w-8 h-8 text-blue-400" />
                   <h3 className="text-xl font-bold text-white">Suggestions</h3>
                 </div>
-                <ul className="list-disc pl-5 space-y-3 text-gray-300 leading-relaxed">
-                  <li>Implement RAG for user assistance.</li>
-                  <li>Add competitions & gamification.</li>
-                  <li>Internalize scanning tools (Kali/Nmap).</li>
-                  <li>Address cyber laws & penalties.</li>
+                <ul className="list-disc pl-5 space-y-2 text-gray-300 leading-relaxed text-sm">
+                  <li>Add RAG for basic queries and assistance for both companies and researchers.</li>
+                  <li>Introduce competitions for researchers to resolve bugs with additional rewards.</li>
+                  <li>Automate detection of duplicate bug reports.</li>
+                  <li>Include basic scanning tools within the system to provide assistance.</li>
+                  <li>Connect the working of the triage team for better visualization.</li>
+                  <li>Handle cyber laws and associated penalties through the system.</li>
                 </ul>
               </GlassCard>
 
@@ -1032,25 +1034,26 @@ export default function Home() {
       </div>
 
       {/* Image Modal */}
-      {selectedImage && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-          onClick={() => setSelectedImage(null)}
-          style={{ zIndex: 9999 }}
-        >
-          <button
-            onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-            className="absolute top-4 right-4 text-white hover:text-blue-400 p-2 rounded-full bg-black/50"
+      {
+        selectedImage && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={() => setSelectedImage(null)}
+            style={{ zIndex: 9999 }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-          <div className="relative max-w-[95vw] max-h-[95vh] p-4" onClick={(e) => e.stopPropagation()}>
-            <Image src={selectedImage.src} alt={selectedImage.alt} width={1200} height={800} className="max-w-full max-h-[95vh] rounded-lg shadow-2xl object-contain" />
+            <button
+              onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
+              className="absolute top-4 right-4 text-white hover:text-blue-400 p-2 rounded-full bg-black/50"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="relative max-w-[95vw] max-h-[95vh] p-4" onClick={(e) => e.stopPropagation()}>
+              <Image src={selectedImage.src} alt={selectedImage.alt} width={1200} height={800} className="max-w-full max-h-[95vh] rounded-lg shadow-2xl object-contain" />
+            </div>
           </div>
-        </div>
-      )
+        )
       }
     </div >
   );
