@@ -460,6 +460,15 @@ export default function Home() {
                   <p className="text-gray-400 text-sm leading-relaxed">Specialized module visualizing the transparent roadmap of the report validation process.</p>
                 </div>
               </GlassCard>
+              <GlassCard className="flex gap-4 md:col-span-2 lg:col-span-2 max-w-2xl mx-auto w-full">
+                <div className="flex-shrink-0">
+                  <MessageSquare className="w-8 h-8 text-green-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-1">RAG-Powered Query Assistance</h3>
+                  <p className="text-gray-400 text-sm leading-relaxed">Intelligent Retrieval-Augmented Generation system providing automated, context-aware support and query resolution for both companies and researchers.</p>
+                </div>
+              </GlassCard>
             </div>
             <div className="mt-8 text-center">
               <p className="text-gray-300 italic">"Research-Backed Logic: Statuses and metrics grounded in established cybersecurity frameworks."</p>
