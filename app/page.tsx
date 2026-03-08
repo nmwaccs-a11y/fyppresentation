@@ -383,7 +383,7 @@ export default function Home() {
                   <AlertCircle className="w-8 h-8 text-yellow-400" />
                   <h3 className="text-xl font-bold text-white">Observations</h3>
                 </div>
-                <ul className="list-inside space-y-3 text-gray-300 leading-relaxed text-center">
+                <ul className="list-disc pl-5 space-y-3 text-gray-300 leading-relaxed text-left">
                   <li>Project idea is unique &amp; valid.</li>
                   <li>Scope requires refinement &amp; clarity.</li>
                   <li>Work is currently too external/API-heavy.</li>
@@ -395,7 +395,7 @@ export default function Home() {
                   <Lightbulb className="w-8 h-8 text-blue-400" />
                   <h3 className="text-xl font-bold text-white">Suggestions</h3>
                 </div>
-                <ul className="list-inside space-y-2 text-gray-300 leading-relaxed text-sm text-center">
+                <ul className="list-disc pl-5 space-y-2 text-gray-300 leading-relaxed text-sm text-left">
                   <li>Add RAG for basic queries and assistance for both companies and researchers.</li>
                   <li>Introduce competitions for researchers to resolve bugs with additional rewards.</li>
                   <li>Automate detection of duplicate bug reports.</li>
