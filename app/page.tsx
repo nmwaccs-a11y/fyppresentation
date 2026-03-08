@@ -378,7 +378,7 @@ export default function Home() {
           <div className="max-w-6xl w-full">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">FYP Panel Feedback</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <GlassCard className="flex flex-col items-center gap-4">
+              <GlassCard className="flex flex-col items-center gap-4 justify-center bg-white/[0.04]">
                 <div className="flex items-center gap-3 mb-2">
                   <AlertCircle className="w-8 h-8 text-yellow-400" />
                   <h3 className="text-xl font-bold text-white">Observations</h3>
@@ -390,7 +390,7 @@ export default function Home() {
                 </ul>
               </GlassCard>
 
-              <GlassCard className="flex flex-col items-center gap-4">
+              <GlassCard className="flex flex-col items-center gap-4 justify-center bg-white/[0.04]">
                 <div className="flex items-center gap-3 mb-2">
                   <Lightbulb className="w-8 h-8 text-blue-400" />
                   <h3 className="text-xl font-bold text-white">Suggestions</h3>
