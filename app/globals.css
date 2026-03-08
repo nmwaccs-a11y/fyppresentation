@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "tailwind-scrollbar";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -119,73 +118,78 @@
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
-  
-  html, body {
+
+  html,
+  body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
   }
-  
+
   /* Ensure proper sizing for all elements */
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     box-sizing: border-box;
   }
-  
+
   /* Responsive images and media */
-  img, video {
+  img,
+  video {
     max-width: 100%;
     height: auto;
   }
-  
+
   /* Remove default button styles that might cause outlines */
   button {
     outline: none !important;
     border: none;
   }
-  
-  button:focus, button:active {
+
+  button:focus,
+  button:active {
     outline: none !important;
     box-shadow: none !important;
   }
-  
+
   /* Hide Next.js development overlay button */
   iframe[src*="vercel.live"] {
     display: none !important;
   }
-  
+
   /* Hide Next.js dev overlay */
   [data-nextjs-dev-overlay] {
     display: none !important;
   }
-  
+
   /* Hide Next.js portal */
   [data-nextjs-portal] {
     display: none !important;
   }
-  
+
   /* Scrollbar styling for webkit browsers */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.1);
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: rgba(128, 128, 128, 0.5);
     border-radius: 4px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(128, 128, 128, 0.7);
   }
@@ -199,7 +203,7 @@
       padding-right: 1rem;
     }
   }
-  
+
   @media (max-width: 768px) {
     .container {
       padding-left: 1.5rem;
@@ -214,9 +218,11 @@
     transform: translateX(-100%) skewX(-15deg);
     opacity: 0;
   }
+
   50% {
     opacity: 0.6;
   }
+
   100% {
     transform: translateX(200%) skewX(-15deg);
     opacity: 0;
@@ -225,10 +231,13 @@
 
 /* Smooth glow pulse animation */
 @keyframes glow-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.02);

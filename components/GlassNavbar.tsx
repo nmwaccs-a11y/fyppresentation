@@ -25,6 +25,7 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
   const itemsRef = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeRect, setActiveRect] = useState({ left: 0, width: 0, opacity: 0 });
   const [hoverRect, setHoverRect] = useState({ left: 0, width: 0, opacity: 0 });
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Update Active Pill Position
   useEffect(() => {
@@ -36,6 +37,15 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
           width: currentItem.offsetWidth,
           opacity: 1
         });
+
+        if (!isInitialized) {
+          // Wait for the browser to paint the new activeRect without transitions, then enable transitions
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              setIsInitialized(true);
+            });
+          });
+        }
 
         if (desktopNavRef.current) {
           const nav = desktopNavRef.current;
@@ -121,8 +131,8 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
                 group relative flex w-full items-center justify-between gap-2 p-1.5 
                 backdrop-blur-2xl border transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]
                 ${isScrolled
-              ? 'rounded-full border-white/10 bg-black/60 shadow-[0_8px_32px_rgb(0,0,0,0.4)]'
-              : 'rounded-2xl border-white/5 bg-black/30 shadow-[0_4px_24px_rgb(0,0,0,0.2)]'
+              ? 'rounded-[32px] border-white/10 bg-black/60 shadow-[0_8px_32px_rgb(0,0,0,0.4)]'
+              : 'rounded-[32px] border-white/5 bg-black/30 shadow-[0_4px_24px_rgb(0,0,0,0.2)]'
             }
             `}
         >
@@ -140,12 +150,12 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
           {/* Desktop Navigation - Sliding Pill */}
           <div
             ref={desktopNavRef}
-            className={`hidden md:flex flex-1 min-w-0 overflow-x-auto overflow-y-hidden scroll-smooth scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent hover:scrollbar-thumb-white/30 items-center relative rounded-full px-2 transition-all duration-500 ${isScrolled ? 'bg-transparent py-1' : 'bg-white/5 py-2'}`}
+            className={`hidden md:flex flex-1 min-w-0 overflow-x-auto overflow-y-hidden scroll-smooth items-center relative rounded-full transition-all duration-500 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isScrolled ? 'bg-transparent py-1 px-1' : 'bg-white/5 py-1.5 px-2'}`}
           >
 
             {/* 1. SLIDING ACTIVE PILL (The magic movement) */}
             <div
-              className="absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-[0_0_20px_rgba(59,130,246,0.5)] z-0 transition-[left,width,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+              className={`absolute top-1 bottom-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-[0_0_20px_rgba(59,130,246,0.5)] z-0 ${isInitialized ? 'transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]' : 'transition-none'}`}
               style={{
                 left: activeRect.left,
                 width: activeRect.width,
@@ -155,7 +165,7 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
 
             {/* 2. HOVER SPOTLIGHT (Subtle interaction) */}
             <div
-              className="absolute top-1 bottom-1 rounded-full bg-white/10 z-0 transition-[left,width,opacity] duration-300 ease-out pointer-events-none"
+              className="absolute top-1 bottom-1 rounded-full bg-white/10 z-0 transition-all duration-300 ease-out pointer-events-none"
               style={{
                 left: hoverRect.left,
                 width: hoverRect.width,
@@ -174,7 +184,7 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
                   onMouseEnter={() => setHoveredIndex(item.index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   className={`
-                                relative whitespace-nowrap flex-shrink-0 px-5 py-2.5 text-xs font-semibold tracking-wide uppercase transition-colors duration-300 z-10
+                                relative whitespace-nowrap flex-shrink-0 px-3 py-1.5 lg:px-4 lg:py-2 text-[10px] lg:text-xs font-semibold tracking-wide uppercase transition-colors duration-300 z-10
                                 ${isActive ? 'text-white' : 'text-zinc-400 hover:text-white'}
                             `}
                 >
