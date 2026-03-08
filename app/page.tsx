@@ -378,24 +378,24 @@ export default function Home() {
           <div className="max-w-6xl w-full">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-12 text-center">FYP Panel Feedback</h1>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <GlassCard className="flex flex-col gap-4">
+              <GlassCard className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3 mb-2">
                   <AlertCircle className="w-8 h-8 text-yellow-400" />
                   <h3 className="text-xl font-bold text-white">Observations</h3>
                 </div>
-                <ul className="list-disc pl-5 space-y-3 text-gray-300 leading-relaxed">
-                  <li>Project idea is unique & valid.</li>
-                  <li>Scope requires refinement & clarity.</li>
+                <ul className="list-inside space-y-3 text-gray-300 leading-relaxed text-center">
+                  <li>Project idea is unique &amp; valid.</li>
+                  <li>Scope requires refinement &amp; clarity.</li>
                   <li>Work is currently too external/API-heavy.</li>
                 </ul>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-4">
+              <GlassCard className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3 mb-2">
                   <Lightbulb className="w-8 h-8 text-blue-400" />
                   <h3 className="text-xl font-bold text-white">Suggestions</h3>
                 </div>
-                <ul className="list-disc pl-5 space-y-2 text-gray-300 leading-relaxed text-sm">
+                <ul className="list-inside space-y-2 text-gray-300 leading-relaxed text-sm text-center">
                   <li>Add RAG for basic queries and assistance for both companies and researchers.</li>
                   <li>Introduce competitions for researchers to resolve bugs with additional rewards.</li>
                   <li>Automate detection of duplicate bug reports.</li>
@@ -405,12 +405,12 @@ export default function Home() {
                 </ul>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-4 justify-center bg-white/[0.04]">
+              <GlassCard className="flex flex-col items-center gap-4 justify-center bg-white/[0.04]">
                 <div className="flex items-center gap-3 mb-2">
                   <Quote className="w-8 h-8 text-indigo-400" />
                   <h3 className="text-xl font-bold text-white">Panel Verdict</h3>
                 </div>
-                <p className="text-gray-300 italic text-lg leading-relaxed">
+                <p className="text-gray-300 italic text-lg leading-relaxed text-center">
                   "At least four new suggestions or features should be explicitly included... Students must focus on system-oriented tasks rather than just integration."
                 </p>
               </GlassCard>
