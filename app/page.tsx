@@ -293,12 +293,19 @@ export default function Home() {
                 Algorithmic disruption of standard columnar cryptography.
               </p>
             </div>
-            <GlassCard className="max-w-md mx-auto flex items-center justify-center gap-4 py-6">
-              <BadgeCheck className="w-8 h-8 text-emerald-400" />
-              <p className="text-xl text-gray-200">
-                Shahzaib Azmat
-              </p>
-            </GlassCard>
+            <div className="flex flex-wrap justify-center gap-4 max-w-2xl mx-auto">
+              {[
+                'Shahzaib',
+                'Tuaseef Ahmad',
+                'Shahzaib Ahmad',
+                'Qasim Mehar (Arain)',
+              ].map((name) => (
+                <GlassCard key={name} className="flex items-center gap-3 py-4 px-6">
+                  <BadgeCheck className="w-5 h-5 text-blue-400 shrink-0" />
+                  <p className="text-base text-gray-200 whitespace-nowrap">{name}</p>
+                </GlassCard>
+              ))}
+            </div>
           </div>
         </div>
 
