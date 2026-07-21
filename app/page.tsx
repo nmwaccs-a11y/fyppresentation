@@ -303,7 +303,7 @@ export default function Home() {
                 'Shahzaib',
                 'Tuaseef Ahmad',
                 'Shahzaib Ahmad',
-                'Qasim Mehar (Arain)',
+                'Qasim Riaz',
               ].map((name) => (
                 <GlassCard key={name} className="flex items-center gap-3 py-4 px-6">
                   <BadgeCheck className="w-5 h-5 text-blue-400 shrink-0" />
