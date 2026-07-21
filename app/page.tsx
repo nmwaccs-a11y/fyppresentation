@@ -73,14 +73,19 @@ const InteractiveDecryption = dynamic(() => import("@/components/InteractiveDecr
   ssr: false,
 });
 
+const PythonPlaygroundSlide = dynamic(() => import("@/components/PythonPlaygroundSlide"), {
+  ssr: false,
+});
+
 const slides = [
   { id: 0, title: "Title",        name: "Title Slide" },
   { id: 1, title: "Context",      name: "Origins and Architecture" },
   { id: 2, title: "Mechanic",     name: "Standard Columnar vs. Myszkowski" },
   { id: 3, title: "Encryption",   name: "Encryption Algorithm in Action" },
   { id: 4, title: "Decryption",   name: "Decryption Algorithm in Action" },
-  { id: 5, title: "Cryptanalysis",name: "Cryptanalysis" },
-  { id: 6, title: "Q&A",          name: "Questions & Discussion" },
+  { id: 5, title: "Python",       name: "Python Implementation & Live Execution" },
+  { id: 6, title: "Cryptanalysis",name: "Cryptanalysis" },
+  { id: 7, title: "Q&A",          name: "Questions & Discussion" },
 ];
 
 export default function Home() {
@@ -443,8 +448,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Slide 6: Cryptanalysis (Strengths & Weaknesses) */}
+        {/* Slide 6: Python Playground */}
         <div ref={(el) => { slideRefs.current[5] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
+          <div className="max-w-7xl w-full text-center">
+            <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">Python Implementation</h1>
+            <p className="text-xl text-blue-300 mb-8">Live execution powered by WebAssembly · Press <span className="font-mono bg-white/[0.06] px-2 py-0.5 rounded-lg text-sm">Ctrl+Enter</span> to run</p>
+            <PythonPlaygroundSlide />
+          </div>
+        </div>
+
+        {/* Slide 7: Cryptanalysis (Strengths & Weaknesses) */}
+        <div ref={(el) => { slideRefs.current[6] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
           <div className="max-w-6xl w-full text-center">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Cryptanalysis: Strengths &amp; Weaknesses</h1>
             <p className="text-xl text-blue-300 mb-12">Security Analysis</p>
@@ -493,8 +507,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Slide 7: Q&A */}
-        <div ref={(el) => { slideRefs.current[6] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
+        {/* Slide 8: Q&A */}
+        <div ref={(el) => { slideRefs.current[7] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
           <div className="max-w-6xl w-full text-center space-y-8">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Questions &amp; Discussion</h1>
             <p className="text-2xl text-blue-200 font-medium">Thank you for your time.</p>
