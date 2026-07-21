@@ -359,7 +359,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
               <GlassCard className="flex flex-col gap-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-blue-450 mb-3">Standard Columnar</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">Standard Columnar</h3>
                   <div className="space-y-3">
                     <p className="text-gray-300"><strong className="text-white">Rule:</strong> Duplicate letters in the key are ranked sequentially (e.g., in APPLE, P1 is 2, P2 is 3).</p>
                     <p className="text-gray-300"><strong className="text-white">Extraction:</strong> Read entirely vertically, column by column.</p>
@@ -394,7 +394,7 @@ export default function Home() {
 
               <GlassCard className="flex flex-col gap-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-emerald-450 mb-3">The Myszkowski Variant</h3>
+                  <h3 className="text-2xl font-bold text-white mb-3">The Myszkowski Variant</h3>
                   <div className="space-y-3">
                     <p className="text-gray-300"><strong className="text-white">Rule:</strong> Duplicate letters share the exact same rank (e.g., in APPLE, both P's are 2).</p>
                     <p className="text-gray-300"><strong className="text-white">Extraction:</strong> Columns with the same rank are read concurrently—transcribed left-to-right, row-by-row.</p>
