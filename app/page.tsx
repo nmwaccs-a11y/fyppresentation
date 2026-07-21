@@ -84,8 +84,7 @@ const slides = [
   { id: 3, title: "Encryption",   name: "Encryption Algorithm in Action" },
   { id: 4, title: "Decryption",   name: "Decryption Algorithm in Action" },
   { id: 5, title: "Python",       name: "Python Implementation & Live Execution" },
-  { id: 6, title: "Cryptanalysis",name: "Cryptanalysis" },
-  { id: 7, title: "Q&A",          name: "Questions & Discussion" },
+  { id: 6, title: "Q&A",          name: "Questions & Discussion" },
 ];
 
 export default function Home() {
@@ -457,58 +456,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Slide 7: Cryptanalysis (Strengths & Weaknesses) */}
+        {/* Slide 7: Q&A */}
         <div ref={(el) => { slideRefs.current[6] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
-          <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Cryptanalysis: Strengths &amp; Weaknesses</h1>
-            <p className="text-xl text-blue-300 mb-12">Security Analysis</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-              <GlassCard className="flex flex-col gap-6">
-                <div className="flex items-center gap-3">
-                  <ShieldCheck className="w-8 h-8 text-emerald-400" />
-                  <h3 className="text-xl font-bold text-white">Strengths</h3>
-                </div>
-                <div className="space-y-5">
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Disrupts Anagramming</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      The primary strength lies in shattering the intact vertical column chunks that standard columnar ciphers leave behind. Reading duplicate-rank columns concurrently row-by-row significantly increases the mathematical complexity of reconstruction through anagramming attacks.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Simple Key Management</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Works with any natural-language keyword containing repeating letters — no special key generation required, making it practical for manual use.
-                    </p>
-                  </div>
-                </div>
-              </GlassCard>
-              <GlassCard className="flex flex-col gap-6">
-                <div className="flex items-center gap-3">
-                  <ShieldAlert className="w-8 h-8 text-red-400" />
-                  <h3 className="text-xl font-bold text-white">Vulnerabilities</h3>
-                </div>
-                <div className="space-y-5">
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Zero Confusion</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      As a <em>pure transposition</em> cipher it only provides diffusion. Letter frequencies remain identical to the underlying plaintext language, leaving it highly vulnerable to frequency analysis — a cryptanalyst can immediately identify the plaintext language and rule out substitution.
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white mb-1">Multiple Anagramming</h4>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      If a sender reuses the same keyword for multiple messages of the <em>exact same length</em>, an attacker can compare ciphertexts to derive column lengths and eventually recover the transposition key entirely.
-                    </p>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-          </div>
-        </div>
-
-        {/* Slide 8: Q&A */}
-        <div ref={(el) => { slideRefs.current[7] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
           <div className="max-w-6xl w-full text-center space-y-8">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Questions &amp; Discussion</h1>
             <p className="text-2xl text-blue-200 font-medium">Thank you for your time.</p>
