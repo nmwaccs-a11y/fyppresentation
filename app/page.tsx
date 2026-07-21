@@ -354,18 +354,20 @@ export default function Home() {
         <div ref={(el) => { slideRefs.current[2] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-20">
           <div className="max-w-6xl w-full text-center">
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">Standard Columnar vs. Myszkowski</h1>
-            <p className="text-xl text-blue-300 mb-12">The Core Mechanic comparison with keyword APPLE</p>
+            <p className="text-xl text-blue-300 mb-10 font-medium">The Core Difference: How Duplicate Letters Change Everything</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
               <GlassCard className="flex flex-col gap-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-3">Standard Columnar</h3>
-                  <div className="space-y-3">
-                    <p className="text-gray-300"><strong className="text-white">Rule:</strong> Duplicate letters in the key are ranked sequentially (e.g., in APPLE, P1 is 2, P2 is 3).</p>
-                    <p className="text-gray-300"><strong className="text-white">Extraction:</strong> Read entirely vertically, column by column.</p>
+                  <h3 className="text-2xl font-bold text-white mb-4">Standard Columnar <span className="text-sm font-normal text-blue-300/80">(The Old Way)</span></h3>
+                  <div className="space-y-3.5 text-sm leading-relaxed">
+                    <p className="text-gray-300"><strong className="text-white font-semibold">1. Numbering Rules:</strong> Repeated letters in a keyword get different, sequential numbers. (e.g., in the word A-P-P-L-E, the first 'P' is #2, and the second 'P' is #3).</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">2. Reading Order:</strong> You read the text straight down, one single column at a time.</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">3. The Result:</strong> The message is sliced into long, unbroken vertical strips.</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">4. The Flaw:</strong> Because chunks of the original words stay glued together in these vertical strips, codebreakers can easily guess and piece them back together.</p>
                   </div>
                 </div>
-                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400">
-                  <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Standard Ranking Mapping</div>
+                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400 mt-auto">
+                  <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Standard Ranking Mapping (APPLE)</div>
                   <div className="flex justify-center gap-2">
                     <div className="flex flex-col items-center bg-white/[0.03] border border-white/[0.08] rounded p-2 w-12">
                       <span className="text-white font-bold">A</span>
@@ -393,14 +395,16 @@ export default function Home() {
 
               <GlassCard className="flex flex-col gap-6">
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-3">The Myszkowski Variant</h3>
-                  <div className="space-y-3">
-                    <p className="text-gray-300"><strong className="text-white">Rule:</strong> Duplicate letters share the exact same rank (e.g., in APPLE, both P's are 2).</p>
-                    <p className="text-gray-300"><strong className="text-white">Extraction:</strong> Columns with the same rank are read concurrently—transcribed left-to-right, row-by-row.</p>
+                  <h3 className="text-2xl font-bold text-white mb-4">The Myszkowski Variant <span className="text-sm font-normal text-emerald-300/80">(The Upgrade)</span></h3>
+                  <div className="space-y-3.5 text-sm leading-relaxed">
+                    <p className="text-gray-300"><strong className="text-white font-semibold">1. Numbering Rules:</strong> Repeated letters share the exact same number. (e.g., in A-P-P-L-E, both 'P's are #2).</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">2. Reading Order:</strong> You read across all columns that share the same number at the same time, moving left-to-right, row-by-row.</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">3. The Result:</strong> The message is pulled from multiple different parts of the grid simultaneously.</p>
+                    <p className="text-gray-300"><strong className="text-white font-semibold">4. The Fix:</strong> Words are completely shattered. It destroys those easy-to-read vertical chunks, making it a nightmare for attackers to reassemble.</p>
                   </div>
                 </div>
-                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400">
-                  <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Myszkowski Ranking Mapping</div>
+                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400 mt-auto">
+                  <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Myszkowski Ranking Mapping (APPLE)</div>
                   <div className="flex justify-center gap-2">
                     <div className="flex flex-col items-center bg-white/[0.03] border border-white/[0.08] rounded p-2 w-12">
                       <span className="text-white font-bold">A</span>
