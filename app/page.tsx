@@ -368,7 +368,7 @@ export default function Home() {
                 </div>
                 <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400 mt-auto">
                   <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Standard Ranking Mapping (APPLE)</div>
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-center gap-2 mb-3">
                     <div className="flex flex-col items-center bg-white/[0.03] border border-white/[0.08] rounded p-2 w-12">
                       <span className="text-white font-bold">A</span>
                       <span className="text-blue-400 text-xs mt-1">1</span>
@@ -390,6 +390,27 @@ export default function Home() {
                       <span className="text-blue-400 text-xs mt-1">5</span>
                     </div>
                   </div>
+
+                  {/* Visual Example */}
+                  <div className="p-3 bg-black/40 border border-blue-500/20 rounded-xl font-mono text-xs text-left">
+                    <div className="text-[10px] text-blue-300 font-semibold mb-1 uppercase tracking-wider">Visual Example: "SECRETCODE"</div>
+                    <div className="grid grid-cols-5 gap-1 text-center my-1.5 font-bold text-xs">
+                      <div className="bg-white/5 py-1 rounded text-gray-300">S</div>
+                      <div className="bg-blue-500/20 text-blue-300 py-1 rounded">E</div>
+                      <div className="bg-blue-500/20 text-blue-300 py-1 rounded">C</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">R</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">E</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">T</div>
+                      <div className="bg-blue-500/20 text-blue-300 py-1 rounded">C</div>
+                      <div className="bg-blue-500/20 text-blue-300 py-1 rounded">O</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">D</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">E</div>
+                    </div>
+                    <div className="text-[11px] text-gray-300 mt-2">
+                      <span className="text-gray-400">Ciphertext:</span> <span className="text-blue-300 font-bold">ST EC CO RD EE</span>
+                      <span className="block text-[10px] text-red-400/90 mt-1">⚠️ Vertical chunks (EC, CO) stay intact column-by-column</span>
+                    </div>
+                  </div>
                 </div>
               </GlassCard>
 
@@ -405,7 +426,7 @@ export default function Home() {
                 </div>
                 <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 font-mono text-sm text-gray-400 mt-auto">
                   <div className="text-[10px] text-gray-500 mb-2 tracking-wider uppercase text-center">Myszkowski Ranking Mapping (APPLE)</div>
-                  <div className="flex justify-center gap-2">
+                  <div className="flex justify-center gap-2 mb-3">
                     <div className="flex flex-col items-center bg-white/[0.03] border border-white/[0.08] rounded p-2 w-12">
                       <span className="text-white font-bold">A</span>
                       <span className="text-emerald-400 text-xs mt-1">1</span>
@@ -425,6 +446,27 @@ export default function Home() {
                     <div className="flex flex-col items-center bg-white/[0.03] border border-white/[0.08] rounded p-2 w-12">
                       <span className="text-white font-bold">E</span>
                       <span className="text-emerald-400 text-xs mt-1">4</span>
+                    </div>
+                  </div>
+
+                  {/* Visual Example */}
+                  <div className="p-3 bg-black/40 border border-emerald-500/20 rounded-xl font-mono text-xs text-left">
+                    <div className="text-[10px] text-emerald-300 font-semibold mb-1 uppercase tracking-wider">Visual Example: "SECRETCODE"</div>
+                    <div className="grid grid-cols-5 gap-1 text-center my-1.5 font-bold text-xs">
+                      <div className="bg-white/5 py-1 rounded text-gray-300">S</div>
+                      <div className="bg-emerald-500/20 text-emerald-300 py-1 rounded">E</div>
+                      <div className="bg-emerald-500/20 text-emerald-300 py-1 rounded">C</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">R</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">E</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">T</div>
+                      <div className="bg-emerald-500/20 text-emerald-300 py-1 rounded">C</div>
+                      <div className="bg-emerald-500/20 text-emerald-300 py-1 rounded">O</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">D</div>
+                      <div className="bg-white/5 py-1 rounded text-gray-300">E</div>
+                    </div>
+                    <div className="text-[11px] text-gray-300 mt-2">
+                      <span className="text-gray-400">Ciphertext:</span> <span className="text-emerald-300 font-bold">ST ECCO RD EE</span>
+                      <span className="block text-[10px] text-emerald-400 mt-1">✓ Rank 2 reads row-by-row across both 'P' cols → E-C then C-O = ECCO</span>
                     </div>
                   </div>
                 </div>
