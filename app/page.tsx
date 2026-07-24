@@ -377,17 +377,17 @@ export default function Home() {
         <div ref={(el) => { slideRefs.current[2] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
           <div className="max-w-5xl w-full text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Problem Statement</h1>
-            <p className="text-lg sm:text-xl text-blue-200 font-medium mb-5">Traditional security testing in Pakistan is fragmented &amp; vulnerable.</p>
+            <p className="text-lg sm:text-xl text-blue-200 font-medium mb-5">No national bug bounty infrastructure &amp; severe foreign payout barriers in Pakistan.</p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 text-left mb-5">
               {[
-                { title: "Expensive & Infrequent", desc: "Annual pentests miss continuous daily risk & zero-days." },
-                { title: "Unstructured Disclosure", desc: "Researchers email bugs with no legal safe harbor or scope clarity." },
-                { title: "Manual Triage Overload", desc: "Companies drown in duplicate reports and severity disputes." },
-                { title: "Weak Trust & Payouts", desc: "No escrow guarantees, reputation gates, or KYC verification." },
-                { title: "No Integrated Platform", desc: "Fragmented tools (email, spreadsheets) instead of one pipeline." },
+                { title: "No Local Platform", desc: "Pakistan lacks a national bug bounty platform tailored to local cybersecurity & legal needs." },
+                { title: "Foreign Payout Barriers", desc: "Pakistani researchers face severe payment issues on global sites (PayPal ban, high wire fees, FX hurdles)." },
+                { title: "High USD Subscription Costs", desc: "International platforms charge heavy USD fees, making them unaffordable for local Pakistani companies." },
+                { title: "Legal Risk & Exposure", desc: "Reporting bugs directly without safe harbor policies exposes researchers to legal risks under PECA." },
+                { title: "Fragmented Security Disclosures", desc: "Companies rely on unstructured emails or infrequent pentests, missing continuous vulnerability coverage." },
               ].map((prob, i) => (
-                <GlassCard key={prob.title} className="flex flex-col gap-2 p-4 border-red-500/20">
+                <GlassCard key={prob.title} className="flex flex-col gap-2 p-4 border-red-500/20 hover:border-red-500/40 transition-colors">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-mono text-red-400 font-bold">0{i + 1}.</span>
                     <h3 className="text-sm sm:text-base font-bold text-white">{prob.title}</h3>
@@ -403,7 +403,7 @@ export default function Home() {
               <div>
                 <h3 className="text-base sm:text-lg font-bold text-red-300 mb-1">Core Problem Summary</h3>
                 <p className="text-xs sm:text-sm md:text-base text-gray-100 font-medium leading-relaxed">
-                  There is no unified system that safely connects ethical hackers and organizations with scoped programs, AI-assisted triage, dispute handling, and PKR payouts.
+                  Pakistani ethical hackers face severe payment and legal hurdles on foreign platforms, while local organizations lack an affordable, PKR-native bug bounty platform with PECA safe harbor protection.
                 </p>
               </div>
             </GlassCard>
