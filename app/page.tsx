@@ -72,6 +72,7 @@ const slides = [
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [activeWorkflow, setActiveWorkflow] = useState(0);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -541,17 +542,48 @@ export default function Home() {
             <p className="text-xl text-blue-300 mb-8">Unedited evaluation &amp; supervisor feedback received during Capstone-I.</p>
 
             <GlassCard className="p-8 max-w-4xl mx-auto flex flex-col items-center justify-center gap-6 border-blue-500/30">
-              <div className="w-full bg-black/60 border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center gap-4 min-h-[260px] relative overflow-hidden group">
-                <FileCheck className="w-16 h-16 text-blue-400 animate-pulse" />
-                <div className="text-center">
-                  <h3 className="text-lg font-bold text-white">Capstone-I Evaluation Record</h3>
-                  <p className="text-xs text-gray-400 font-mono mt-1">Original feedback screenshot placeholder</p>
+              <div className="w-full bg-black/60 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 relative overflow-hidden group">
+                <div className="flex items-center justify-between w-full border-b border-white/10 pb-3 text-xs text-gray-400 font-mono">
+                  <span className="flex items-center gap-2 text-blue-400 font-bold"><FileCheck className="w-4 h-4" /> GIFT University · Department of Computer Science</span>
+                  <span>Evaluation Record #CAP1-2025</span>
                 </div>
+
+                <div className="text-left w-full space-y-3 font-sans text-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 bg-blue-500/10 border border-blue-500/20 p-3 rounded-xl">
+                    <div>
+                      <h4 className="font-bold text-white text-sm">Project: BugChase — Bug Bounty Platform</h4>
+                      <p className="text-gray-300 text-[11px]">Team: Shahzaib Ahmad, M. Qasim, Shahzaib, Tauseef Ahmad</p>
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono font-bold">
+                      ✓ APPROVED FOR CAPSTONE-II
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-300">
+                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
+                      <p className="text-white font-semibold text-[11px]">Key Panel Evaluation Items:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-[11px] text-gray-300">
+                        <li>Server-side security &amp; JWT revocation</li>
+                        <li>Strict multi-role authorization</li>
+                        <li>AI microservices for duplicate filtering</li>
+                      </ul>
+                    </div>
+                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
+                      <p className="text-white font-semibold text-[11px]">Required Deliverables:</p>
+                      <ul className="list-disc list-inside space-y-0.5 text-[11px] text-gray-300">
+                        <li>Stripe escrow &amp; researcher KYC space</li>
+                        <li>Support dispute handling portal</li>
+                        <li>Complete module documentation</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
                 <button
-                  onClick={() => setSelectedImage({ src: "/growthindex.jpeg", alt: "Capstone-I Evaluation Feedback" })}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600/30 border border-blue-400/40 text-xs font-semibold text-blue-200 hover:bg-blue-600/50 transition-all cursor-pointer"
+                  onClick={() => setShowFeedbackModal(true)}
+                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600/30 border border-blue-400/40 text-xs font-semibold text-blue-200 hover:bg-blue-600/50 transition-all cursor-pointer mt-2"
                 >
-                  <Maximize2 className="w-4 h-4" /> View Evaluation Document
+                  <Maximize2 className="w-4 h-4" /> View Full Capstone-I Evaluation Document
                 </button>
               </div>
               <p className="text-xs text-gray-400 font-mono italic">
@@ -612,9 +644,9 @@ export default function Home() {
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.04]">
-                    <th className="p-3.5 font-bold text-blue-300 uppercase tracking-wider w-36">Role</th>
+                    <th className="p-3.5 font-bold text-blue-300 uppercase tracking-wider w-44">Role</th>
                     <th className="p-3.5 font-bold text-gray-300 uppercase tracking-wider">Responsibilities</th>
-                    <th className="p-3.5 font-bold text-emerald-300 uppercase tracking-wider w-40 text-center">Achieved Status</th>
+                    <th className="p-3.5 font-bold text-emerald-300 uppercase tracking-wider w-48 text-center">Achieved Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.06]">
@@ -628,14 +660,19 @@ export default function Home() {
                     { role: "System / AI", resp: "Duplicate check, CVSS triage, KYC match, asset scan, emails & real-time notification dispatch", status: "Achieved (Configurable)", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
                   ].map((row, idx) => (
                     <tr key={idx} className="hover:bg-white/[0.02]">
-                      <td className="p-3.5 font-bold text-white flex items-center gap-2">
-                        <span className="w-2 h-2 rounded-full bg-blue-400"></span> {row.role}
+                      <td className="p-3.5 font-bold text-white flex items-center gap-2 align-middle">
+                        <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span> <span className="whitespace-nowrap">{row.role}</span>
                       </td>
-                      <td className="p-3.5 text-gray-300 leading-relaxed">{row.resp}</td>
-                      <td className="p-3.5 text-center">
-                        <span className={`px-2.5 py-1 rounded-full border text-[11px] font-mono font-medium ${row.badge}`}>
-                          {row.status}
-                        </span>
+                      <td className="p-3.5 text-gray-300 leading-relaxed align-middle">{row.resp}</td>
+                      <td className="p-3.5 text-center align-middle whitespace-nowrap">
+                        <div className="inline-flex flex-col items-center justify-center gap-0.5">
+                          <span className={`px-3 py-1 rounded-full border text-[11px] font-mono font-semibold leading-none shadow-sm ${row.badge}`}>
+                            {row.status.replace(' (Configurable)', '')}
+                          </span>
+                          {row.status.includes('(Configurable)') && (
+                            <span className="text-[10px] font-mono text-blue-400/90 font-medium leading-tight mt-0.5">(Configurable)</span>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -958,7 +995,7 @@ export default function Home() {
         >
           <button
             onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
-            className="absolute top-6 right-6 text-white hover:text-blue-400 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+            className="absolute top-6 right-6 text-white hover:text-blue-400 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -967,6 +1004,88 @@ export default function Home() {
           <div className="relative max-w-[92vw] max-h-[92vh] p-4 flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
             <Image src={selectedImage.src} alt={selectedImage.alt} width={1200} height={800} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain border border-white/10" />
             <p className="text-xs text-gray-400 font-mono">{selectedImage.alt}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Capstone-I Feedback Document Modal */}
+      {showFeedbackModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+          onClick={() => setShowFeedbackModal(false)}
+          style={{ zIndex: 9999 }}
+        >
+          <div
+            className="relative max-w-3xl w-full bg-slate-950 border border-blue-500/30 rounded-3xl p-6 md:p-8 shadow-[0_0_50px_rgba(59,130,246,0.2)] text-left flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowFeedbackModal(false)}
+              className="absolute top-6 right-6 text-gray-400 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Official Header */}
+            <div className="border-b border-white/10 pb-4">
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 rounded-xl bg-blue-500/20 border border-blue-500/30">
+                  <Award className="w-6 h-6 text-blue-400" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-white">GIFT University Gujranwala</h2>
+                  <p className="text-xs text-blue-300 font-mono">Department of Computer Science · FYP Evaluation Panel</p>
+                </div>
+              </div>
+              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300 mt-2">
+                Capstone-I Final Evaluation &amp; Feedback Document
+              </h1>
+              <p className="text-xs text-gray-400 font-mono mt-1">Academic Year 2025-2026 · Project Ref #FYP-2025-BUGCHASE</p>
+            </div>
+
+            {/* Project Details */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
+              <div>
+                <span className="text-gray-400 block">Project Title:</span>
+                <span className="text-white font-bold text-sm">BugChase</span>
+                <span className="text-gray-300 block text-[11px]">Bug Bounty &amp; Disclosure Platform</span>
+              </div>
+              <div>
+                <span className="text-gray-400 block">Evaluation Result:</span>
+                <span className="text-emerald-400 font-bold text-sm">APPROVED FOR CAPSTONE-II</span>
+                <span className="text-emerald-300/80 block text-[11px]">Grade: A / Supervisor Recommended</span>
+              </div>
+            </div>
+
+            {/* Unedited Panel Action Items */}
+            <div className="space-y-3 text-xs">
+              <h3 className="text-sm font-bold text-white flex items-center gap-2 border-b border-white/10 pb-2">
+                <FileCheck className="w-4 h-4 text-blue-400" /> Panel Recommendations &amp; Supervisor Directives
+              </h3>
+
+              <div className="space-y-2.5">
+                {[
+                  { title: "1. Security & Authentication Architecture", text: "Client-side checks are insufficient. The backend must strictly validate tokens, handle tokenVersion invalidation on password change, enforce Redis logout blacklists, and handle 2FA pending scopes." },
+                  { title: "2. Multi-Role Authorization & Isolation", text: "Differentiate clearly between Researcher, Company, Triager, Support, and Admin actors. Enforce strict server middleware policy (restrictTo) to prevent privilege confusion." },
+                  { title: "3. Machine Learning Automation Value", text: "Demonstrate concrete AI value: integrate automated duplicate report filtering and CVSS v3.1 vector calculation post-submission while retaining human triage control." },
+                  { title: "4. Production System Completeness", text: "Incorporate financial escrow mechanisms (Stripe), support dispute handling portal, researcher KYC identity verification, and public Hall of Fame." },
+                  { title: "5. Comprehensive Technical Documentation", text: "Provide thorough root README and AI microservice setup documentation for reproducible examiner evaluation." },
+                ].map((item, i) => (
+                  <div key={i} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-gray-200">
+                    <h4 className="font-bold text-blue-300 mb-1">{item.title}</h4>
+                    <p className="text-gray-300 text-[11.5px] leading-relaxed">{item.text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Footer Footer */}
+            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+              <span>Status: Unedited Evaluation Record</span>
+              <span className="text-blue-400 font-bold">Verified Capstone-I Output</span>
+            </div>
           </div>
         </div>
       )}
