@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 type NavItem = {
   id: number;
@@ -135,6 +136,16 @@ const GlassNavbar = ({ items, activeIndex, onItemClick }: GlassNavbarProps) => {
             }
             `}
         >
+          {/* Logo */}
+          <div className="flex items-center gap-3 pl-3 pr-2 shrink-0">
+            <div className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full group-hover:scale-105 transition-transform duration-500">
+              <Image src="/logo.png" alt="BugChase Logo" width={40} height={40} className="object-cover" />
+              <div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity group-hover:opacity-100 mix-blend-overlay rounded-full" />
+            </div>
+            <span className={`font-bold tracking-tight text-white text-lg transition-all duration-300 hidden sm:block ${isScrolled ? 'opacity-90' : 'opacity-100'}`}>
+              BugChase
+            </span>
+          </div>
           {/* Desktop Navigation - Sliding Pill */}
           <div
             ref={desktopNavRef}
