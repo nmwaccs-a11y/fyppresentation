@@ -44,7 +44,8 @@ import {
   CheckCircle2,
   XCircle,
   HelpCircle,
-  Terminal
+  Terminal,
+  User
 } from "lucide-react";
 
 const LightRays = dynamic(() => import("@/components/LightRays"), {
@@ -65,15 +66,12 @@ const slides = [
   { id: 10, title: "Backend",     name: "Completed Tasks: Backend" },
   { id: 11, title: "AI / ML",     name: "ML & AI Modules" },
   { id: 12, title: "Tech",        name: "Tools & Technologies" },
-  { id: 13, title: "Workflows",   name: "System Workflows & Architecture" },
-  { id: 14, title: "Conclusion",  name: "Conclusion & References" },
+  { id: 13, title: "Conclusion",  name: "Conclusion & References" },
 ];
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [activeWorkflow, setActiveWorkflow] = useState(0);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const isScrolling = useRef(false);
@@ -205,13 +203,12 @@ export default function Home() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && (selectedImage || showFeedbackModal)) {
+      if (e.key === 'Escape' && selectedImage) {
         setSelectedImage(null);
-        setShowFeedbackModal(false);
         return;
       }
 
-      if (selectedImage || showFeedbackModal) return;
+      if (selectedImage) return;
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -226,7 +223,7 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentSlide, scrollToSlide, selectedImage, showFeedbackModal]);
+  }, [currentSlide, scrollToSlide, selectedImage]);
 
   // Helper for glass cards - Transparent iOS 26 style
   const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
@@ -242,42 +239,15 @@ export default function Home() {
     { name: "Tauseef Ahmad", role: "Backend & Systems Engineer" },
   ];
 
-  const workflows = [
-    {
-      title: "1. Authentication & Session Security",
-      desc: "Signup → Email OTP (Redis) → Verify → Password Login → 2FA Verification (if enabled, auditor token: 2fa_pending) → Session JWT (HTTP-Only Cookie) → Logout blacklists JTI in Redis. Password change increments tokenVersion.",
-      tech: "Node.js + Express + Upstash Redis + JWT"
-    },
-    {
-      title: "2. Program Creation (BBP / VDP)",
-      desc: "Company creates BBP/VDP program → defines scope, monetary rewards, safe harbor policy → Admin moderates (Pending/Active/Banned) → Public programs published to registry; Private programs use invite tokens or auto-scaling cron.",
-      tech: "MongoDB + Express + Public/Private Invitations"
-    },
-    {
-      title: "3. Researcher Eligibility & Report Submission",
-      desc: "Researcher completes profile & KYC → effectiveScore = max(reputation, profileCompletion) → UI & API enforce ≥ 150 score threshold → Multipart upload with Cloudinary attachments → Report status set to Submitted → Enqueue AI Pipeline.",
-      tech: "Cloudinary + KYC HF Space + VRT Taxonomy"
-    },
-    {
-      title: "4. AI Processing Pipeline (Post-Submit)",
-      desc: "reportProcessingQueue runs FIFO: 1. Atlas Search for candidate duplicates. 2. Duplicate Engine (FastAPI/Ollama) computes similarity. 3. CVSS Engine computes CVSS v3.1 vector & severity. Socket.io pushes real-time updates.",
-      tech: "FastAPI + Ollama + Atlas Search + CVSS Engine"
-    },
-    {
-      title: "5. Human Triage & Decision",
-      desc: "Triagers view unassigned pool → Claim report → Live WebSocket chat with researcher → Issue severity & status validation decision → Optional Gemini 2.5 Flash summary generated → Company notified of triaged report.",
-      tech: "Socket.io + Gemini 2.5 Flash + React UI"
-    },
-    {
-      title: "6. Bounty Escrow & PKR Payouts",
-      desc: "Company funds program escrow via Stripe → Awards bounty upon report resolution → Transaction created (bounty_payment / bounty_earned / platform_fee in PKR) → Researcher balance updated → Withdrawal via payout method with OTP.",
-      tech: "Stripe Wallet Escrow + Nodemailer Payout OTP"
-    },
-    {
-      title: "7. Support Disputes & Private Invites",
-      desc: "User opens dispute on severity/payout → Report moves to 'In Dispute' → Support agents on support.bugchase.com review messages & mediate → Reassign triager if needed → Auto-invite engine scales private program invites.",
-      tech: "Support Portal + Cron Auto-Invites"
-    }
+  const capstone1FeedbackBullets = [
+    "The document requires updates in system diagrams to accurately reflect the actual system flow. The UCD and system design diagrams are not properly linked with the implementation or class objects.",
+    "Policies for spam handling, researcher suspension, and discrepancy reporting between researcher findings and RAG analysis are not defined and should be clearly specified in the system design.",
+    "There is insufficient research explaining how the core features will be implemented in Capstone-II.",
+    "The current approach relies heavily on LLMs, and prioritizing RAG output alone may create reliability issues. RAG results should be used carefully rather than treated as the only source of decision-making.",
+    "The system should enforce a proper reward mechanism in the bug bounty program and ensure that users define rewards or select appropriate program types.",
+    "Important technical aspects of bug bounty platforms are not properly addressed, including vulnerability severity classification, conflict handling between automated scanners and advanced analysis methods such as RAG, prevention of false duplicate detection, consistent CVSS scoring, and handling incomplete vulnerability scans or restricted testing environments.",
+    "Research related to automated bug detection tools is missing, and the system should focus more on automated bug detection rather than manual processes.",
+    "The presentation content is not fully aligned with the written document, and several slides appear overly AI-generated, affecting clarity and originality. Slides should be refined to better match the documented work."
   ];
 
   return (
@@ -538,58 +508,33 @@ export default function Home() {
 
         {/* ── Slide 6: Capstone-I Feedback ────────────────────────────────── */}
         <div ref={(el) => { slideRefs.current[5] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
-          <div className="max-w-4xl w-full text-center">
+          <div className="max-w-5xl w-full text-center">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Capstone-I Feedback</h1>
-            <p className="text-lg sm:text-xl text-blue-200 font-medium mb-5">Unedited evaluation &amp; supervisor feedback received during Capstone-I.</p>
 
-            <GlassCard className="p-6 mx-auto flex flex-col items-center justify-center gap-4 border-blue-500/30">
-              <div className="w-full bg-black/60 border border-white/10 rounded-2xl p-5 flex flex-col items-center justify-center gap-3 relative overflow-hidden group">
-                <div className="flex items-center justify-between w-full border-b border-white/10 pb-3 text-xs sm:text-sm text-gray-300 font-mono">
-                  <span className="flex items-center gap-2 text-blue-400 font-bold"><FileCheck className="w-4 h-4" /> GIFT University · Department of Computer Science</span>
-                  <span>Evaluation Record #CAP1-2025</span>
-                </div>
-
-                <div className="text-left w-full space-y-3 font-sans text-xs sm:text-sm">
-                  <div className="flex flex-wrap items-center justify-between gap-2 bg-blue-500/10 border border-blue-500/20 p-3 rounded-xl">
-                    <div>
-                      <h4 className="font-bold text-white text-base">Project: BugChase — Bug Bounty Platform</h4>
-                      <p className="text-gray-300 text-xs">Team: Shahzaib Ahmad, M. Qasim, Shahzaib, Tauseef Ahmad</p>
-                    </div>
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold">
-                      ✓ APPROVED FOR CAPSTONE-II
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-200">
-                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
-                      <p className="text-white font-bold text-xs sm:text-sm">Key Panel Evaluation Items:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-300">
-                        <li>Server-side security &amp; JWT revocation</li>
-                        <li>Strict multi-role authorization</li>
-                        <li>AI microservices for duplicate filtering</li>
-                      </ul>
-                    </div>
-                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
-                      <p className="text-white font-bold text-xs sm:text-sm">Required Deliverables:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-xs text-gray-300">
-                        <li>Stripe escrow &amp; researcher KYC space</li>
-                        <li>Support dispute handling portal</li>
-                        <li>Complete module documentation</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setShowFeedbackModal(true)}
-                  className="flex items-center gap-2 px-5 py-2 rounded-xl bg-blue-600/30 border border-blue-400/40 text-xs sm:text-sm font-bold text-blue-200 hover:bg-blue-600/50 transition-all cursor-pointer mt-1"
-                >
-                  <Maximize2 className="w-4 h-4" /> View Full Capstone-I Evaluation Document
-                </button>
+            {/* Header Metadata Box */}
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 bg-blue-500/10 border border-blue-500/30 px-6 py-2.5 rounded-xl mb-3 text-xs sm:text-sm font-sans font-medium text-white max-w-4xl mx-auto">
+              <div>
+                <span className="text-blue-300">Supervisor Name:</span> <strong className="text-white">Mam Sumbal Fatima</strong>
               </div>
-              <p className="text-xs text-gray-400 font-mono italic">
-                Caption: Figure — Capstone-I evaluation / supervisor feedback (original unedited).
-              </p>
+              <span>•</span>
+              <div>
+                <span className="text-blue-300">Project Name:</span> <strong className="text-white">Bug Bounty Platform for Pakistan</strong>
+              </div>
+              <span>•</span>
+              <div>
+                <span className="text-blue-300">Score:</span> <strong className="text-amber-300 font-bold font-mono text-sm sm:text-base">11.75</strong>
+              </div>
+            </div>
+
+            {/* Exact Transcribed Feedback Bullets */}
+            <GlassCard className="p-4 sm:p-5 max-w-5xl mx-auto text-left border-blue-500/30">
+              <ul className="space-y-2 text-xs sm:text-sm text-gray-200 leading-snug list-disc list-inside">
+                {capstone1FeedbackBullets.map((bullet, idx) => (
+                  <li key={idx} className="pl-1">
+                    <span>{bullet}</span>
+                  </li>
+                ))}
+              </ul>
             </GlassCard>
           </div>
         </div>
@@ -876,67 +821,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ── Slide 14: System Workflows & Architecture ───────────────────── */}
+        {/* ── Slide 14: Conclusion & References ──────────────────────────── */}
         <div ref={(el) => { slideRefs.current[13] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
-          <div className="max-w-5xl w-full text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">System Workflows &amp; Architecture</h1>
-            <p className="text-lg sm:text-xl text-blue-200 font-medium mb-4">Interactive view of core platform execution flows.</p>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 text-left">
-              {/* Workflow Navigation */}
-              <GlassCard className="p-3.5 sm:p-4 flex flex-col gap-2">
-                <p className="text-xs font-mono uppercase text-gray-300 mb-1 font-bold tracking-wider">Select Workflow</p>
-                {workflows.map((wf, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveWorkflow(idx)}
-                    className={`p-2.5 sm:p-3 rounded-xl text-left text-xs sm:text-sm transition-all flex items-center justify-between cursor-pointer ${
-                      activeWorkflow === idx
-                        ? 'bg-blue-600/30 border border-blue-400/50 text-white font-bold shadow-[0_0_20px_rgba(59,130,246,0.35)]'
-                        : 'bg-white/[0.02] border border-white/5 text-gray-300 hover:text-white hover:bg-white/[0.06]'
-                    }`}
-                  >
-                    <span className="truncate pr-2">{wf.title}</span>
-                    <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${activeWorkflow === idx ? 'rotate-90 text-blue-400' : 'text-gray-500'}`} />
-                  </button>
-                ))}
-              </GlassCard>
-
-              {/* Workflow Details */}
-              <GlassCard className="lg:col-span-2 p-5 sm:p-6 flex flex-col justify-between border-blue-500/30">
-                <div>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
-                    <h3 className="text-lg sm:text-xl font-bold text-white">{workflows[activeWorkflow].title}</h3>
-                    <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
-                      Step-by-Step Flow
-                    </span>
-                  </div>
-                  <p className="text-sm sm:text-base text-gray-100 leading-relaxed font-sans mb-4">
-                    {workflows[activeWorkflow].desc}
-                  </p>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/10 text-xs sm:text-sm font-mono text-blue-300">
-                    <span className="text-gray-400 font-sans">Underlying Stack:</span> {workflows[activeWorkflow].tech}
-                  </div>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-white/10">
-                    <button
-                      onClick={() => setSelectedImage({ src: "/systemArch.jpeg", alt: "BugChase System Architecture Diagram" })}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/15 text-xs sm:text-sm font-semibold text-gray-200 hover:bg-white/10 transition-all cursor-pointer"
-                    >
-                      <Maximize2 className="w-3.5 h-3.5 text-blue-400" /> View System Architecture Diagram
-                    </button>
-                  </div>
-                </div>
-              </GlassCard>
-            </div>
-          </div>
-        </div>
-
-        {/* ── Slide 15: Conclusion & References ──────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[14] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
           <div className="max-w-5xl w-full text-center space-y-6">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Conclusion &amp; References</h1>
             <p className="text-lg sm:text-xl text-blue-200 font-medium max-w-3xl mx-auto leading-snug">
@@ -1005,88 +891,6 @@ export default function Home() {
           <div className="relative max-w-[92vw] max-h-[92vh] p-4 flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
             <Image src={selectedImage.src} alt={selectedImage.alt} width={1200} height={800} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain border border-white/10" />
             <p className="text-sm text-gray-300 font-mono">{selectedImage.alt}</p>
-          </div>
-        </div>
-      )}
-
-      {/* Capstone-I Feedback Document Modal */}
-      {showFeedbackModal && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6"
-          onClick={() => setShowFeedbackModal(false)}
-          style={{ zIndex: 9999 }}
-        >
-          <div
-            className="relative max-w-4xl w-full bg-slate-950 border border-blue-500/30 rounded-3xl p-6 sm:p-8 shadow-[0_0_60px_rgba(59,130,246,0.25)] text-left flex flex-col gap-5 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setShowFeedbackModal(false)}
-              className="absolute top-6 right-6 text-gray-400 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Official Header */}
-            <div className="border-b border-white/10 pb-3">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 rounded-xl bg-blue-500/20 border border-blue-500/30">
-                  <Award className="w-6 h-6 text-blue-400" />
-                </div>
-                <div>
-                  <h2 className="text-lg sm:text-xl font-bold text-white">GIFT University Gujranwala</h2>
-                  <p className="text-xs sm:text-sm text-blue-300 font-mono">Department of Computer Science · FYP Evaluation Panel</p>
-                </div>
-              </div>
-              <h1 className="text-xl sm:text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300 mt-1">
-                Capstone-I Final Evaluation &amp; Feedback Document
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-400 font-mono mt-1">Academic Year 2025-2026 · Project Ref #FYP-2025-BUGCHASE</p>
-            </div>
-
-            {/* Project Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm font-mono bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
-              <div>
-                <span className="text-gray-400 block">Project Title:</span>
-                <span className="text-white font-bold text-base">BugChase</span>
-                <span className="text-gray-300 block text-xs">Bug Bounty &amp; Disclosure Platform</span>
-              </div>
-              <div>
-                <span className="text-gray-400 block">Evaluation Result:</span>
-                <span className="text-emerald-400 font-bold text-base">APPROVED FOR CAPSTONE-II</span>
-                <span className="text-emerald-300/80 block text-xs">Grade: A / Supervisor Recommended</span>
-              </div>
-            </div>
-
-            {/* Unedited Panel Action Items */}
-            <div className="space-y-3 text-xs sm:text-sm">
-              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2 border-b border-white/10 pb-2">
-                <FileCheck className="w-5 h-5 text-blue-400" /> Panel Recommendations &amp; Supervisor Directives
-              </h3>
-
-              <div className="space-y-2.5">
-                {[
-                  { title: "1. Security & Authentication Architecture", text: "Client-side checks are insufficient. The backend must strictly validate tokens, handle tokenVersion invalidation on password change, enforce Redis logout blacklists, and handle 2FA pending scopes." },
-                  { title: "2. Multi-Role Authorization & Isolation", text: "Differentiate clearly between Researcher, Company, Triager, Support, and Admin actors. Enforce strict server middleware policy (restrictTo) to prevent privilege confusion." },
-                  { title: "3. Machine Learning Automation Value", text: "Demonstrate concrete AI value: integrate automated duplicate report filtering and CVSS v3.1 vector calculation post-submission while retaining human triage control." },
-                  { title: "4. Production System Completeness", text: "Incorporate financial escrow mechanisms (Stripe), support dispute handling portal, researcher KYC identity verification, and public Hall of Fame." },
-                  { title: "5. Comprehensive Technical Documentation", text: "Provide thorough root README and AI microservice setup documentation for reproducible examiner evaluation." },
-                ].map((item, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-gray-200">
-                    <h4 className="font-bold text-blue-300 mb-1 text-xs sm:text-sm">{item.title}</h4>
-                    <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{item.text}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Footer Footer */}
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-xs text-gray-400 font-mono">
-              <span>Status: Unedited Evaluation Record</span>
-              <span className="text-blue-400 font-bold">Verified Capstone-I Output</span>
-            </div>
           </div>
         </div>
       )}
