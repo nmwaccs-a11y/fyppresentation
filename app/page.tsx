@@ -412,37 +412,34 @@ export default function Home() {
 
         {/* ── Slide 4: Proposed Solution - BugChase ───────────────────────── */}
         <div ref={(el) => { slideRefs.current[3] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
-          <div className="max-w-5xl w-full text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Proposed Solution — BugChase</h1>
-            <p className="text-lg sm:text-xl text-blue-200 font-medium mb-5">One end-to-end pipeline from discovery → report → triage → resolution → reward.</p>
+          <div className="max-w-5xl w-full text-left space-y-4 sm:space-y-5">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white text-center mb-1">Proposed Solution</h1>
 
-            {/* Pillars Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 text-left mb-5">
-              {[
-                { pillar: "Programs", built: "Public/private BBP & VDP with scope, rewards, safe harbor", icon: Target },
-                { pillar: "Reports", built: "Guided submission (VRT taxonomy), attachments, spam guards", icon: FileText },
-                { pillar: "AI Pipeline", built: "Duplicate detection + CVSS v3.1 triage after submission", icon: Bot },
-                { pillar: "Human Triage", built: "Triager queue, claim, severity decisions, live WebSocket chat", icon: UserCheck },
-                { pillar: "Money", built: "Company escrow (Stripe), researcher wallet & payouts (PKR)", icon: DollarSign },
-                { pillar: "Trust", built: "KYC verification, reputation/profile gates, private invites", icon: BadgeCheck },
-                { pillar: "Governance", built: "Admin moderation, support disputes portal, Hall of Fame", icon: ShieldCheck },
-                { pillar: "Public Site", built: "Marketing site, public profiles (/h/:username), live stats", icon: Globe },
-              ].map((item) => (
-                <GlassCard key={item.pillar} className="flex flex-col gap-2 p-4 border-blue-500/20">
-                  <div className="flex items-center gap-2.5 text-blue-400">
-                    <item.icon className="w-5 h-5 shrink-0" />
-                    <h3 className="text-base sm:text-lg font-bold text-white">{item.pillar}</h3>
-                  </div>
-                  <p className="text-xs sm:text-sm text-gray-200 leading-snug">{item.built}</p>
-                </GlassCard>
-              ))}
+            <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm md:text-base text-gray-200 leading-relaxed font-sans">
+              <p>
+                Our proposed solution is Pakistan's first national-level bug bounty platform, designed specifically to meet the country's cybersecurity and legal needs.
+              </p>
+              <p>
+                BugChase serves as a secure bridge between organizations and ethical hackers, allowing approved vulnerability testing, structured reporting, and legal payouts — all under the framework of the PECA Act.
+              </p>
+              <p>
+                The platform will help companies create bounty programs, researchers submit vulnerabilities, and triagers verify and prioritize issues. It promotes cybersecurity awareness, builds trust, and ensures that researchers can contribute legally and safely.
+              </p>
             </div>
 
-            <GlassCard className="border-emerald-500/30 bg-emerald-950/20 py-3 px-6 text-center">
-              <p className="text-xs sm:text-sm md:text-base font-semibold text-emerald-300">
-                ✓ Result: Complete ecosystem transforming security testing into an automated, transparent, and rewarding workflow.
-              </p>
-            </GlassCard>
+            {/* Core Capabilities Sub-card (Matches Capstone-I UI) */}
+            <div className="bg-blue-950/20 border border-blue-500/30 rounded-2xl p-5 sm:p-6 text-left shadow-[0_0_30px_rgba(59,130,246,0.15)]">
+              <h3 className="font-bold text-white text-base sm:text-lg mb-3">Core capabilities include:</h3>
+              <ul className="space-y-1.5 text-xs sm:text-sm text-gray-200 leading-snug list-disc list-inside">
+                <li>Secure vulnerability submission portal</li>
+                <li>Company dashboard</li>
+                <li>Triage management system</li>
+                <li>Researcher leaderboard</li>
+                <li>Two-factor authentication</li>
+                <li>JWT-based security</li>
+                <li>Local reward management</li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -509,26 +506,11 @@ export default function Home() {
         {/* ── Slide 6: Capstone-I Feedback ────────────────────────────────── */}
         <div ref={(el) => { slideRefs.current[5] = el; }} className="flex items-center justify-center h-screen min-h-screen max-h-screen px-4 sm:px-6 snap-start snap-always pt-20 pb-4 overflow-hidden">
           <div className="max-w-5xl w-full text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-2">Capstone-I Feedback</h1>
-
-            {/* Header Metadata Box */}
-            <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 bg-blue-500/10 border border-blue-500/30 px-6 py-2.5 rounded-xl mb-3 text-xs sm:text-sm font-sans font-medium text-white max-w-4xl mx-auto">
-              <div>
-                <span className="text-blue-300">Supervisor Name:</span> <strong className="text-white">Mam Sumbal Fatima</strong>
-              </div>
-              <span>•</span>
-              <div>
-                <span className="text-blue-300">Project Name:</span> <strong className="text-white">Bug Bounty Platform for Pakistan</strong>
-              </div>
-              <span>•</span>
-              <div>
-                <span className="text-blue-300">Score:</span> <strong className="text-amber-300 font-bold font-mono text-sm sm:text-base">11.75</strong>
-              </div>
-            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white mb-4">Capstone-I Feedback</h1>
 
             {/* Exact Transcribed Feedback Bullets */}
-            <GlassCard className="p-4 sm:p-5 max-w-5xl mx-auto text-left border-blue-500/30">
-              <ul className="space-y-2 text-xs sm:text-sm text-gray-200 leading-snug list-disc list-inside">
+            <GlassCard className="p-4 sm:p-6 max-w-5xl mx-auto text-left border-blue-500/30">
+              <ul className="space-y-2.5 text-xs sm:text-sm text-gray-200 leading-snug list-disc list-inside">
                 {capstone1FeedbackBullets.map((bullet, idx) => (
                   <li key={idx} className="pl-1">
                     <span>{bullet}</span>
