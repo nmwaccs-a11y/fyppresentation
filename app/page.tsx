@@ -205,12 +205,13 @@ export default function Home() {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedImage) {
+      if (e.key === 'Escape' && (selectedImage || showFeedbackModal)) {
         setSelectedImage(null);
+        setShowFeedbackModal(false);
         return;
       }
 
-      if (selectedImage) return;
+      if (selectedImage || showFeedbackModal) return;
 
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -225,7 +226,7 @@ export default function Home() {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentSlide, scrollToSlide, selectedImage]);
+  }, [currentSlide, scrollToSlide, selectedImage, showFeedbackModal]);
 
   // Helper for glass cards - Transparent iOS 26 style
   const GlassCard = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
@@ -314,75 +315,75 @@ export default function Home() {
       >
 
         {/* ── Slide 1: Title Slide ────────────────────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[0] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[0] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center space-y-8">
             <div className="flex justify-center mb-2">
-              <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-black/60 shadow-[0_0_40px_rgba(59,130,246,0.3)]">
-                <Image src="/logo.png" alt="BugChase Logo" width={80} height={80} className="object-cover" />
+              <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-black/60 shadow-[0_0_50px_rgba(59,130,246,0.35)]">
+                <Image src="/logo.png" alt="BugChase Logo" width={96} height={96} className="object-cover" />
               </div>
             </div>
             <div>
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-xs font-mono mb-4 uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5" /> Capstone-II Final Presentation · Development Project
+              <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-300 text-sm font-mono font-medium mb-4 uppercase tracking-wider">
+                <Sparkles className="w-4 h-4 text-blue-400" /> Capstone-II Final Presentation · Development Project
               </div>
-              <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 mb-4 pb-2 leading-tight font-sans">
+              <h1 className="text-5xl sm:text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 mb-4 pb-2 leading-tight font-sans">
                 BugChase
               </h1>
-              <p className="text-xl md:text-2xl text-blue-200 font-medium max-w-3xl mx-auto leading-relaxed">
+              <p className="text-2xl sm:text-3xl text-blue-100 font-medium max-w-4xl mx-auto leading-relaxed">
                 Full-Stack Bug Bounty &amp; Coordinated Vulnerability Disclosure Platform
               </p>
             </div>
 
             {/* Team Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-2">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5 max-w-5xl mx-auto pt-2">
               {teamMembers.map((member) => (
-                <GlassCard key={member.name} className="p-4 text-center flex flex-col items-center justify-center gap-1 border-white/10 hover:border-blue-500/40 transition-colors">
-                  <BadgeCheck className="w-5 h-5 text-blue-400 mb-1" />
-                  <p className="text-sm font-semibold text-white">{member.name}</p>
-                  <p className="text-[11px] text-gray-400 font-mono">{member.role}</p>
+                <GlassCard key={member.name} className="p-5 text-center flex flex-col items-center justify-center gap-1.5 border-white/10 hover:border-blue-500/40 transition-colors">
+                  <BadgeCheck className="w-6 h-6 text-blue-400 mb-1" />
+                  <p className="text-base sm:text-lg font-bold text-white">{member.name}</p>
+                  <p className="text-xs sm:text-sm text-blue-300 font-mono font-medium">{member.role}</p>
                 </GlassCard>
               ))}
             </div>
 
             {/* Project Metadata */}
-            <div className="flex flex-wrap justify-center items-center gap-6 text-xs text-gray-400 font-mono pt-2">
-              <span>Institution: <strong className="text-gray-200 font-sans">Gift University, Gujranwala</strong></span>
+            <div className="flex flex-wrap justify-center items-center gap-6 text-sm sm:text-base text-gray-300 font-mono pt-2">
+              <span>Institution: <strong className="text-white font-sans font-semibold">Gift University, Gujranwala</strong></span>
               <span>•</span>
-              <span>Academic Year: <strong className="text-gray-200 font-sans">2025-2026</strong></span>
+              <span>Academic Year: <strong className="text-white font-sans font-semibold">2025-2026</strong></span>
             </div>
 
             {/* Live Platform Links */}
-            <div className="flex flex-wrap justify-center gap-3 pt-2">
-              <a href="https://www.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-blue-300 hover:bg-blue-500/20 hover:border-blue-500/40 transition-all">
-                <Globe className="w-3.5 h-3.5 text-blue-400" /> Web: www.bugchase.com <ExternalLink className="w-3 h-3 text-gray-500" />
+            <div className="flex flex-wrap justify-center gap-4 pt-2">
+              <a href="https://www.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-sm sm:text-base font-semibold text-blue-300 hover:bg-blue-500/20 hover:border-blue-500/40 transition-all">
+                <Globe className="w-4 h-4 text-blue-400" /> Web: www.bugchase.com <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
               </a>
-              <a href="https://api.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                <Server className="w-3.5 h-3.5 text-indigo-400" /> API: api.bugchase.com <ExternalLink className="w-3 h-3 text-gray-500" />
+              <a href="https://api.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-sm sm:text-base font-semibold text-indigo-300 hover:bg-indigo-500/20 hover:border-indigo-500/40 transition-all">
+                <Server className="w-4 h-4 text-indigo-400" /> API: api.bugchase.com <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
               </a>
-              <a href="https://support.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-purple-300 hover:bg-purple-500/20 hover:border-purple-500/40 transition-all">
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-400" /> Support: support.bugchase.com <ExternalLink className="w-3 h-3 text-gray-500" />
+              <a href="https://support.bugchase.com" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/[0.04] border border-white/15 text-sm sm:text-base font-semibold text-purple-300 hover:bg-purple-500/20 hover:border-purple-500/40 transition-all">
+                <ShieldCheck className="w-4 h-4 text-purple-400" /> Support: support.bugchase.com <ExternalLink className="w-3.5 h-3.5 text-gray-400" />
               </a>
             </div>
           </div>
         </div>
 
         {/* ── Slide 2: Introduction & Overview ───────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[1] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[1] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Introduction</h1>
-            <p className="text-xl text-blue-300 mb-8 max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Introduction</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8 max-w-4xl mx-auto leading-relaxed">
               Multi-role security platform connecting researchers, companies, triagers, support, and admins in one unified workflow.
             </p>
 
             {/* Pitch Banner */}
-            <GlassCard className="mb-8 border-blue-500/30 bg-blue-950/20 py-4 px-6 text-center">
-              <p className="text-base md:text-lg text-blue-200 font-medium">
+            <GlassCard className="mb-8 border-blue-500/30 bg-blue-950/20 py-5 px-8 text-center">
+              <p className="text-lg sm:text-xl md:text-2xl text-blue-100 font-semibold leading-relaxed">
                 &ldquo;Pakistan-focused crowdsourced security testing with AI-assisted triage, escrow payouts, and coordinated disclosure.&rdquo;
               </p>
             </GlassCard>
 
             {/* Roles Table Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 text-left">
               {[
                 { role: "Researchers", icon: Shield, desc: "Find & report vulnerabilities, earn bounties, build reputation.", color: "text-blue-400" },
                 { role: "Companies", icon: Building2, desc: "Run BBP / VDP programs, define scope, payout from Stripe escrow.", color: "text-emerald-400" },
@@ -390,12 +391,12 @@ export default function Home() {
                 { role: "Support", icon: HelpCircle, desc: "Mediate disputes on support.bugchase.com, reassign triagers.", color: "text-amber-400" },
                 { role: "Admins", icon: Lock, desc: "Govern platform users, programs moderation, finance & treasury.", color: "text-red-400" },
               ].map((item) => (
-                <GlassCard key={item.role} className="flex flex-col gap-3 p-5">
-                  <div className="flex items-center gap-2.5">
-                    <item.icon className={`w-6 h-6 ${item.color}`} />
-                    <h3 className="text-base font-bold text-white">{item.role}</h3>
+                <GlassCard key={item.role} className="flex flex-col gap-3 p-6 border-white/10 hover:border-white/20">
+                  <div className="flex items-center gap-3">
+                    <item.icon className={`w-7 h-7 ${item.color} shrink-0`} />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{item.role}</h3>
                   </div>
-                  <p className="text-xs text-gray-300 leading-relaxed">{item.desc}</p>
+                  <p className="text-sm sm:text-base text-gray-200 leading-relaxed font-normal">{item.desc}</p>
                 </GlassCard>
               ))}
             </div>
@@ -403,12 +404,12 @@ export default function Home() {
         </div>
 
         {/* ── Slide 3: Problem Statement ──────────────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[2] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[2] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Problem Statement</h1>
-            <p className="text-xl text-blue-300 mb-8">Traditional security testing in Pakistan is fragmented &amp; vulnerable.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Problem Statement</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Traditional security testing in Pakistan is fragmented &amp; vulnerable.</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-5 gap-4 text-left mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 text-left mb-8">
               {[
                 { title: "Expensive & Infrequent", desc: "Annual pentests miss continuous daily risk & zero-days." },
                 { title: "Unstructured Disclosure", desc: "Researchers email bugs with no legal safe harbor or scope clarity." },
@@ -416,22 +417,22 @@ export default function Home() {
                 { title: "Weak Trust & Payouts", desc: "No escrow guarantees, reputation gates, or KYC verification." },
                 { title: "No Integrated Platform", desc: "Fragmented tools (email, spreadsheets) instead of one pipeline." },
               ].map((prob, i) => (
-                <GlassCard key={prob.title} className="flex flex-col gap-2 p-5 border-red-500/20">
+                <GlassCard key={prob.title} className="flex flex-col gap-3 p-6 border-red-500/20">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono text-red-400 font-bold">0{i + 1}.</span>
-                    <h3 className="text-sm font-bold text-white">{prob.title}</h3>
+                    <span className="text-sm font-mono text-red-400 font-bold">0{i + 1}.</span>
+                    <h3 className="text-base sm:text-lg font-bold text-white">{prob.title}</h3>
                   </div>
-                  <p className="text-xs text-gray-300 leading-relaxed">{prob.desc}</p>
+                  <p className="text-sm text-gray-200 leading-relaxed">{prob.desc}</p>
                 </GlassCard>
               ))}
             </div>
 
             {/* Core Problem Callout */}
-            <GlassCard className="border-red-500/30 bg-red-950/20 p-6 text-left flex items-start gap-4">
-              <ShieldAlert className="w-8 h-8 text-red-400 shrink-0 mt-1" />
+            <GlassCard className="border-red-500/30 bg-red-950/20 p-7 text-left flex items-start gap-5">
+              <ShieldAlert className="w-9 h-9 text-red-400 shrink-0 mt-1" />
               <div>
-                <h3 className="text-base font-bold text-red-300 mb-1">Core Problem Summary</h3>
-                <p className="text-sm text-gray-200 leading-relaxed">
+                <h3 className="text-lg sm:text-xl font-bold text-red-300 mb-2">Core Problem Summary</h3>
+                <p className="text-base sm:text-lg md:text-xl text-gray-100 font-medium leading-relaxed">
                   There is no unified system that safely connects ethical hackers and organizations with scoped programs, AI-assisted triage, dispute handling, and PKR payouts.
                 </p>
               </div>
@@ -440,13 +441,13 @@ export default function Home() {
         </div>
 
         {/* ── Slide 4: Proposed Solution - BugChase ───────────────────────── */}
-        <div ref={(el) => { slideRefs.current[3] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[3] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Proposed Solution — BugChase</h1>
-            <p className="text-xl text-blue-300 mb-8">One end-to-end pipeline from discovery → report → triage → resolution → reward.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Proposed Solution — BugChase</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">One end-to-end pipeline from discovery → report → triage → resolution → reward.</p>
 
             {/* Pillars Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-left mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 text-left mb-8">
               {[
                 { pillar: "Programs", built: "Public/private BBP & VDP with scope, rewards, safe harbor", icon: Target },
                 { pillar: "Reports", built: "Guided submission (VRT taxonomy), attachments, spam guards", icon: FileText },
@@ -457,18 +458,18 @@ export default function Home() {
                 { pillar: "Governance", built: "Admin moderation, support disputes portal, Hall of Fame", icon: ShieldCheck },
                 { pillar: "Public Site", built: "Marketing site, public profiles (/h/:username), live stats", icon: Globe },
               ].map((item) => (
-                <GlassCard key={item.pillar} className="flex flex-col gap-2 p-5 border-blue-500/20">
-                  <div className="flex items-center gap-2 text-blue-400">
-                    <item.icon className="w-5 h-5" />
-                    <h3 className="text-sm font-bold text-white">{item.pillar}</h3>
+                <GlassCard key={item.pillar} className="flex flex-col gap-3 p-6 border-blue-500/20">
+                  <div className="flex items-center gap-3 text-blue-400">
+                    <item.icon className="w-6 h-6 shrink-0" />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{item.pillar}</h3>
                   </div>
-                  <p className="text-xs text-gray-300 leading-relaxed">{item.built}</p>
+                  <p className="text-sm sm:text-base text-gray-200 leading-relaxed">{item.built}</p>
                 </GlassCard>
               ))}
             </div>
 
-            <GlassCard className="border-emerald-500/30 bg-emerald-950/20 py-3 px-6 text-center">
-              <p className="text-sm font-semibold text-emerald-300">
+            <GlassCard className="border-emerald-500/30 bg-emerald-950/20 py-4 px-8 text-center">
+              <p className="text-base sm:text-lg md:text-xl font-semibold text-emerald-300">
                 ✓ Result: Complete ecosystem transforming security testing into an automated, transparent, and rewarding workflow.
               </p>
             </GlassCard>
@@ -476,19 +477,19 @@ export default function Home() {
         </div>
 
         {/* ── Slide 5: Scope of the Project ───────────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[4] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[4] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Scope of the Project</h1>
-            <p className="text-xl text-blue-300 mb-8">Comprehensive scope boundaries and deployment architecture.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Scope of the Project</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Comprehensive scope boundaries and deployment architecture.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
               {/* In Scope */}
-              <GlassCard className="flex flex-col gap-4 border-emerald-500/20">
-                <div className="flex items-center gap-2 text-emerald-400">
-                  <CheckCircle2 className="w-6 h-6" />
-                  <h3 className="text-lg font-bold text-white">In Scope</h3>
+              <GlassCard className="flex flex-col gap-5 border-emerald-500/20 p-7">
+                <div className="flex items-center gap-3 text-emerald-400">
+                  <CheckCircle2 className="w-7 h-7 shrink-0" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">In Scope</h3>
                 </div>
-                <ul className="space-y-2 text-xs text-gray-300 leading-relaxed list-disc list-inside">
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 leading-relaxed list-disc list-inside">
                   <li>Multi-role web apps (main + support portal)</li>
                   <li>REST API with JWT + 2FA + session revocation</li>
                   <li>Program management (BBP/VDP, private invites)</li>
@@ -500,12 +501,12 @@ export default function Home() {
               </GlassCard>
 
               {/* Out of Scope */}
-              <GlassCard className="flex flex-col gap-4 border-amber-500/20">
-                <div className="flex items-center gap-2 text-amber-400">
-                  <XCircle className="w-6 h-6" />
-                  <h3 className="text-lg font-bold text-white">Out of Scope / Limitations</h3>
+              <GlassCard className="flex flex-col gap-5 border-amber-500/20 p-7">
+                <div className="flex items-center gap-3 text-amber-400">
+                  <XCircle className="w-7 h-7 shrink-0" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">Out of Scope / Limitations</h3>
                 </div>
-                <ul className="space-y-2 text-xs text-gray-300 leading-relaxed list-disc list-inside">
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 leading-relaxed list-disc list-inside">
                   <li>Native mobile apps (iOS / Android)</li>
                   <li>Full legal liability insurance product</li>
                   <li>Guaranteed 100% AI accuracy (AI assists; humans decide)</li>
@@ -514,12 +515,12 @@ export default function Home() {
               </GlassCard>
 
               {/* Deployment Targets */}
-              <GlassCard className="flex flex-col gap-4 border-blue-500/20">
-                <div className="flex items-center gap-2 text-blue-400">
-                  <Server className="w-6 h-6" />
-                  <h3 className="text-lg font-bold text-white">Deployment Targets</h3>
+              <GlassCard className="flex flex-col gap-5 border-blue-500/20 p-7">
+                <div className="flex items-center gap-3 text-blue-400">
+                  <Server className="w-7 h-7 shrink-0" />
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">Deployment Targets</h3>
                 </div>
-                <div className="space-y-3 text-xs text-gray-300">
+                <div className="space-y-4 text-sm sm:text-base text-gray-200 leading-relaxed">
                   <div>
                     <span className="font-semibold text-white">Hosting:</span> Client, Support Portal &amp; API deployed on <strong className="text-blue-300">Vercel</strong>
                   </div>
@@ -536,41 +537,41 @@ export default function Home() {
         </div>
 
         {/* ── Slide 6: Capstone-I Feedback ────────────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[5] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[5] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Capstone-I Feedback</h1>
-            <p className="text-xl text-blue-300 mb-8">Unedited evaluation &amp; supervisor feedback received during Capstone-I.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Capstone-I Feedback</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Unedited evaluation &amp; supervisor feedback received during Capstone-I.</p>
 
             <GlassCard className="p-8 max-w-4xl mx-auto flex flex-col items-center justify-center gap-6 border-blue-500/30">
-              <div className="w-full bg-black/60 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 relative overflow-hidden group">
-                <div className="flex items-center justify-between w-full border-b border-white/10 pb-3 text-xs text-gray-400 font-mono">
-                  <span className="flex items-center gap-2 text-blue-400 font-bold"><FileCheck className="w-4 h-4" /> GIFT University · Department of Computer Science</span>
+              <div className="w-full bg-black/60 border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center gap-5 relative overflow-hidden group">
+                <div className="flex items-center justify-between w-full border-b border-white/10 pb-4 text-sm sm:text-base text-gray-300 font-mono">
+                  <span className="flex items-center gap-2 text-blue-400 font-bold"><FileCheck className="w-5 h-5" /> GIFT University · Department of Computer Science</span>
                   <span>Evaluation Record #CAP1-2025</span>
                 </div>
 
-                <div className="text-left w-full space-y-3 font-sans text-xs">
-                  <div className="flex flex-wrap items-center justify-between gap-2 bg-blue-500/10 border border-blue-500/20 p-3 rounded-xl">
+                <div className="text-left w-full space-y-4 font-sans text-sm sm:text-base">
+                  <div className="flex flex-wrap items-center justify-between gap-3 bg-blue-500/10 border border-blue-500/20 p-4 rounded-xl">
                     <div>
-                      <h4 className="font-bold text-white text-sm">Project: BugChase — Bug Bounty Platform</h4>
-                      <p className="text-gray-300 text-[11px]">Team: Shahzaib Ahmad, M. Qasim, Shahzaib, Tauseef Ahmad</p>
+                      <h4 className="font-bold text-white text-base sm:text-lg">Project: BugChase — Bug Bounty Platform</h4>
+                      <p className="text-gray-300 text-sm">Team: Shahzaib Ahmad, M. Qasim, Shahzaib, Tauseef Ahmad</p>
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-[11px] font-mono font-bold">
+                    <span className="px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs sm:text-sm font-mono font-bold">
                       ✓ APPROVED FOR CAPSTONE-II
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-gray-300">
-                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
-                      <p className="text-white font-semibold text-[11px]">Key Panel Evaluation Items:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-[11px] text-gray-300">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-200">
+                    <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-2">
+                      <p className="text-white font-bold text-sm sm:text-base">Key Panel Evaluation Items:</p>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
                         <li>Server-side security &amp; JWT revocation</li>
                         <li>Strict multi-role authorization</li>
                         <li>AI microservices for duplicate filtering</li>
                       </ul>
                     </div>
-                    <div className="bg-white/[0.02] border border-white/5 p-3 rounded-xl space-y-1">
-                      <p className="text-white font-semibold text-[11px]">Required Deliverables:</p>
-                      <ul className="list-disc list-inside space-y-0.5 text-[11px] text-gray-300">
+                    <div className="bg-white/[0.02] border border-white/5 p-4 rounded-xl space-y-2">
+                      <p className="text-white font-bold text-sm sm:text-base">Required Deliverables:</p>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-300">
                         <li>Stripe escrow &amp; researcher KYC space</li>
                         <li>Support dispute handling portal</li>
                         <li>Complete module documentation</li>
@@ -581,12 +582,12 @@ export default function Home() {
 
                 <button
                   onClick={() => setShowFeedbackModal(true)}
-                  className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-blue-600/30 border border-blue-400/40 text-xs font-semibold text-blue-200 hover:bg-blue-600/50 transition-all cursor-pointer mt-2"
+                  className="flex items-center gap-2.5 px-6 py-3 rounded-xl bg-blue-600/30 border border-blue-400/40 text-sm sm:text-base font-bold text-blue-200 hover:bg-blue-600/50 transition-all cursor-pointer mt-2"
                 >
                   <Maximize2 className="w-4 h-4" /> View Full Capstone-I Evaluation Document
                 </button>
               </div>
-              <p className="text-xs text-gray-400 font-mono italic">
+              <p className="text-xs sm:text-sm text-gray-400 font-mono italic">
                 Caption: Figure — Capstone-I evaluation / supervisor feedback (original unedited).
               </p>
             </GlassCard>
@@ -594,18 +595,18 @@ export default function Home() {
         </div>
 
         {/* ── Slide 7: Feedback Response and Justification ────────────────── */}
-        <div ref={(el) => { slideRefs.current[6] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[6] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Feedback Response &amp; Justification</h1>
-            <p className="text-xl text-blue-300 mb-8">How Capstone-I evaluation points were directly addressed in Capstone-II.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Feedback Response &amp; Justification</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">How Capstone-I evaluation points were directly addressed in Capstone-II.</p>
 
             <div className="overflow-x-auto mb-6">
-              <table className="w-full text-left border-collapse text-xs">
+              <table className="w-full text-left border-collapse text-sm sm:text-base">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.04]">
-                    <th className="p-3.5 font-bold text-blue-300 uppercase tracking-wider">Capstone-I Feedback</th>
-                    <th className="p-3.5 font-bold text-emerald-300 uppercase tracking-wider">Our Response in Capstone-II</th>
-                    <th className="p-3.5 font-bold text-purple-300 uppercase tracking-wider">Justification</th>
+                    <th className="p-4 font-bold text-blue-300 uppercase tracking-wider text-sm sm:text-base">Capstone-I Feedback</th>
+                    <th className="p-4 font-bold text-emerald-300 uppercase tracking-wider text-sm sm:text-base">Our Response in Capstone-II</th>
+                    <th className="p-4 font-bold text-purple-300 uppercase tracking-wider text-sm sm:text-base">Justification</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.06]">
@@ -617,17 +618,17 @@ export default function Home() {
                     { fb: "Documentation", resp: "Expanded root README + AI microservices architecture guides", just: "Ensures reproducible deployment for examiners" },
                   ].map((row, idx) => (
                     <tr key={idx} className="hover:bg-white/[0.02]">
-                      <td className="p-3.5 font-medium text-white">{row.fb}</td>
-                      <td className="p-3.5 text-gray-300 leading-relaxed">{row.resp}</td>
-                      <td className="p-3.5 text-gray-400 italic">{row.just}</td>
+                      <td className="p-4 font-bold text-white">{row.fb}</td>
+                      <td className="p-4 text-gray-200 leading-relaxed">{row.resp}</td>
+                      <td className="p-4 text-gray-300 italic">{row.just}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <GlassCard className="py-3 px-6 text-center border-blue-500/30">
-              <p className="text-xs text-blue-200 font-mono">
+            <GlassCard className="py-4 px-8 text-center border-blue-500/30">
+              <p className="text-sm sm:text-base md:text-lg text-blue-200 font-mono font-medium">
                 Closing Note: Capstone-II focused on deep security hardening, end-to-end financial/triage workflows, and AI assistance.
               </p>
             </GlassCard>
@@ -635,18 +636,18 @@ export default function Home() {
         </div>
 
         {/* ── Slide 8: System Roles and Responsibilities ──────────────────── */}
-        <div ref={(el) => { slideRefs.current[7] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[7] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">System Roles &amp; Responsibilities</h1>
-            <p className="text-xl text-blue-300 mb-8">Clear delegation of capabilities across all 7 platform actors.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">System Roles &amp; Responsibilities</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Clear delegation of capabilities across all 7 platform actors.</p>
 
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-xs">
+              <table className="w-full text-left border-collapse text-sm sm:text-base">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.04]">
-                    <th className="p-3.5 font-bold text-blue-300 uppercase tracking-wider w-44">Role</th>
-                    <th className="p-3.5 font-bold text-gray-300 uppercase tracking-wider">Responsibilities</th>
-                    <th className="p-3.5 font-bold text-emerald-300 uppercase tracking-wider w-48 text-center">Achieved Status</th>
+                    <th className="p-4 font-bold text-blue-300 uppercase tracking-wider w-44 text-sm sm:text-base">Role</th>
+                    <th className="p-4 font-bold text-gray-300 uppercase tracking-wider text-sm sm:text-base">Responsibilities</th>
+                    <th className="p-4 font-bold text-emerald-300 uppercase tracking-wider w-48 text-center text-sm sm:text-base">Achieved Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.06]">
@@ -660,17 +661,17 @@ export default function Home() {
                     { role: "System / AI", resp: "Duplicate check, CVSS triage, KYC match, asset scan, emails & real-time notification dispatch", status: "Achieved (Configurable)", badge: "bg-blue-500/20 text-blue-300 border-blue-500/30" },
                   ].map((row, idx) => (
                     <tr key={idx} className="hover:bg-white/[0.02]">
-                      <td className="p-3.5 font-bold text-white flex items-center gap-2 align-middle">
-                        <span className="w-2 h-2 rounded-full bg-blue-400 shrink-0"></span> <span className="whitespace-nowrap">{row.role}</span>
+                      <td className="p-4 font-bold text-white flex items-center gap-2 align-middle">
+                        <span className="w-2.5 h-2.5 rounded-full bg-blue-400 shrink-0"></span> <span className="whitespace-nowrap">{row.role}</span>
                       </td>
-                      <td className="p-3.5 text-gray-300 leading-relaxed align-middle">{row.resp}</td>
-                      <td className="p-3.5 text-center align-middle whitespace-nowrap">
-                        <div className="inline-flex flex-col items-center justify-center gap-0.5">
-                          <span className={`px-3 py-1 rounded-full border text-[11px] font-mono font-semibold leading-none shadow-sm ${row.badge}`}>
+                      <td className="p-4 text-gray-200 leading-relaxed align-middle">{row.resp}</td>
+                      <td className="p-4 text-center align-middle whitespace-nowrap">
+                        <div className="inline-flex flex-col items-center justify-center gap-1">
+                          <span className={`px-3.5 py-1.5 rounded-full border text-xs sm:text-sm font-mono font-semibold leading-none shadow-sm ${row.badge}`}>
                             {row.status.replace(' (Configurable)', '')}
                           </span>
                           {row.status.includes('(Configurable)') && (
-                            <span className="text-[10px] font-mono text-blue-400/90 font-medium leading-tight mt-0.5">(Configurable)</span>
+                            <span className="text-xs font-mono text-blue-300 font-medium leading-tight mt-0.5">(Configurable)</span>
                           )}
                         </div>
                       </td>
@@ -683,38 +684,38 @@ export default function Home() {
         </div>
 
         {/* ── Slide 9: Completed Tasks Across Capstone Phases ─────────────── */}
-        <div ref={(el) => { slideRefs.current[8] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[8] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Completed Tasks Across Capstone Phases</h1>
-            <p className="text-xl text-blue-300 mb-8">Evolution from core foundation to production-grade intelligence.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Completed Tasks Across Capstone Phases</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Evolution from core foundation to production-grade intelligence.</p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-6">
-              <GlassCard className="flex flex-col gap-4 border-blue-500/30">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-blue-400" /> Capstone-I Phase
+              <GlassCard className="flex flex-col gap-5 border-blue-500/30 p-7">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <Clock className="w-6 h-6 text-blue-400" /> Capstone-I Phase
                   </h3>
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  <span className="text-xs sm:text-sm font-mono px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
                     Foundation Focus
                   </span>
                 </div>
-                <div className="space-y-3 text-xs text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-sm sm:text-base text-gray-200 leading-relaxed">
                   <p><strong className="text-white">Core Architecture:</strong> Defined system roles, basic authentication, initial database models.</p>
                   <p><strong className="text-white">Program &amp; Report UI:</strong> Basic program browser and guided report submission wizard.</p>
                   <p><strong className="text-white">Initial API:</strong> Basic CRUD endpoints for users, reports, and company programs.</p>
                 </div>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-4 border-emerald-500/30">
-                <div className="flex items-center justify-between border-b border-white/10 pb-3">
-                  <h3 className="text-xl font-bold text-white flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-emerald-400" /> Capstone-II Phase
+              <GlassCard className="flex flex-col gap-5 border-emerald-500/30 p-7">
+                <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                  <h3 className="text-2xl font-bold text-white flex items-center gap-3">
+                    <Sparkles className="w-6 h-6 text-emerald-400" /> Capstone-II Phase
                   </h3>
-                  <span className="text-xs font-mono px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  <span className="text-xs sm:text-sm font-mono px-3.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-semibold">
                     Hardening &amp; Intelligence
                   </span>
                 </div>
-                <div className="space-y-3 text-xs text-gray-300 leading-relaxed">
+                <div className="space-y-4 text-sm sm:text-base text-gray-200 leading-relaxed">
                   <p><strong className="text-white">AI Processing Pipeline:</strong> Atlas Search + Duplicate Engine + CVSS Triage Engine.</p>
                   <p><strong className="text-white">Security Hardening:</strong> 2FA, JWT blacklist, tokenVersion, PII API redaction.</p>
                   <p><strong className="text-white">Production Completeness:</strong> Stripe escrow payouts, Support Portal, KYC space, Hall of Fame.</p>
@@ -722,8 +723,8 @@ export default function Home() {
               </GlassCard>
             </div>
 
-            <GlassCard className="py-3 px-6 text-center border-purple-500/30">
-              <p className="text-xs text-purple-200 font-mono">
+            <GlassCard className="py-4 px-8 text-center border-purple-500/30">
+              <p className="text-sm sm:text-base md:text-lg text-purple-200 font-mono font-medium">
                 Detailed breakdowns split into Frontend, Backend, and ML/AI modules in subsequent slides.
               </p>
             </GlassCard>
@@ -731,15 +732,15 @@ export default function Home() {
         </div>
 
         {/* ── Slide 10: Completed Tasks - Frontend ────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[9] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[9] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Completed Tasks: Frontend</h1>
-            <p className="text-xl text-blue-300 mb-8">User interfaces &amp; interactive experience built across phases.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Completed Tasks: Frontend</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">User interfaces &amp; interactive experience built across phases.</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-6">
-              <GlassCard className="flex flex-col gap-4">
-                <h3 className="text-lg font-bold text-blue-300 border-b border-white/10 pb-2">Capstone-I (Foundation)</h3>
-                <ul className="space-y-2 text-xs text-gray-300 list-disc list-inside">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
+              <GlassCard className="flex flex-col gap-5 p-7">
+                <h3 className="text-xl sm:text-2xl font-bold text-blue-300 border-b border-white/10 pb-3">Capstone-I (Foundation)</h3>
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 list-disc list-inside leading-relaxed">
                   <li>Role-based dashboards (researcher, company, triager, admin)</li>
                   <li>Authentication interfaces (Login, Signup, Email OTP)</li>
                   <li>Program browsing &amp; guided VRT report submission wizard</li>
@@ -747,9 +748,9 @@ export default function Home() {
                 </ul>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-4 border-emerald-500/20">
-                <h3 className="text-lg font-bold text-emerald-300 border-b border-white/10 pb-2">Capstone-II (Productization)</h3>
-                <ul className="space-y-2 text-xs text-gray-300 list-disc list-inside">
+              <GlassCard className="flex flex-col gap-5 border-emerald-500/20 p-7">
+                <h3 className="text-xl sm:text-2xl font-bold text-emerald-300 border-b border-white/10 pb-3">Capstone-II (Productization)</h3>
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 list-disc list-inside leading-relaxed">
                   <li>Support Portal (<span className="text-blue-300 font-mono">support.bugchase.com</span>) for dispute mediation</li>
                   <li>Public marketing site (Landing, Solutions, Company, Legal) with live stats</li>
                   <li>Hall of Fame &amp; privacy-aware public researcher profiles (<span className="text-blue-300 font-mono">/h/:username</span>)</li>
@@ -760,22 +761,22 @@ export default function Home() {
               </GlassCard>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-mono text-gray-300">
-              <Cpu className="w-4 h-4 text-blue-400" /> Stack: <strong className="text-white">React + Vite + TypeScript + Tailwind CSS + React Router</strong>
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/[0.04] border border-white/15 text-sm sm:text-base font-mono text-gray-200">
+              <Cpu className="w-5 h-5 text-blue-400" /> Stack: <strong className="text-white">React + Vite + TypeScript + Tailwind CSS + React Router</strong>
             </div>
           </div>
         </div>
 
         {/* ── Slide 11: Completed Tasks - Backend ─────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[10] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[10] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Completed Tasks: Backend</h1>
-            <p className="text-xl text-blue-300 mb-8">Server architecture, security enforcement, and integrations.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Completed Tasks: Backend</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Server architecture, security enforcement, and integrations.</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-6">
-              <GlassCard className="flex flex-col gap-4">
-                <h3 className="text-lg font-bold text-blue-300 border-b border-white/10 pb-2">Capstone-I (Core API)</h3>
-                <ul className="space-y-2 text-xs text-gray-300 list-disc list-inside">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left mb-8">
+              <GlassCard className="flex flex-col gap-5 p-7">
+                <h3 className="text-xl sm:text-2xl font-bold text-blue-300 border-b border-white/10 pb-3">Capstone-I (Core API)</h3>
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 list-disc list-inside leading-relaxed">
                   <li>Express API mounts (/auth, /users, /reports, /programs, /company, /triager, /admin)</li>
                   <li>Mongoose models (User, Report, Program, Transaction)</li>
                   <li>JWT authentication &amp; basic role restrictTo middleware</li>
@@ -783,9 +784,9 @@ export default function Home() {
                 </ul>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-4 border-purple-500/20">
-                <h3 className="text-lg font-bold text-purple-300 border-b border-white/10 pb-2">Capstone-II (Hardening &amp; Scale)</h3>
-                <ul className="space-y-2 text-xs text-gray-300 list-disc list-inside">
+              <GlassCard className="flex flex-col gap-5 border-purple-500/20 p-7">
+                <h3 className="text-xl sm:text-2xl font-bold text-purple-300 border-b border-white/10 pb-3">Capstone-II (Hardening &amp; Scale)</h3>
+                <ul className="space-y-3 text-sm sm:text-base text-gray-200 list-disc list-inside leading-relaxed">
                   <li>Full auth suite: 2FA pending tokens, Redis logout revocation, tokenVersion</li>
                   <li>Public signup role lockdown (no self-assigning triager/admin)</li>
                   <li>Server-side report eligibility enforcement (&ge;150 score threshold)</li>
@@ -796,26 +797,26 @@ export default function Home() {
               </GlassCard>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs font-mono text-gray-300">
-              <Server className="w-4 h-4 text-emerald-400" /> Stack: <strong className="text-white">Node.js + Express + Mongoose + Upstash Redis + Socket.io</strong>
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/[0.04] border border-white/15 text-sm sm:text-base font-mono text-gray-200">
+              <Server className="w-5 h-5 text-emerald-400" /> Stack: <strong className="text-white">Node.js + Express + Mongoose + Upstash Redis + Socket.io</strong>
             </div>
           </div>
         </div>
 
         {/* ── Slide 12: ML / AI Module ────────────────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[11] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[11] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">ML / AI Module</h1>
-            <p className="text-xl text-blue-300 mb-8">Intelligent automation assisting vulnerability triage and security ops.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">ML / AI Module</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Intelligent automation assisting vulnerability triage and security ops.</p>
 
             <div className="overflow-x-auto mb-6">
-              <table className="w-full text-left border-collapse text-xs">
+              <table className="w-full text-left border-collapse text-sm sm:text-base">
                 <thead>
                   <tr className="border-b border-white/10 bg-white/[0.04]">
-                    <th className="p-3.5 font-bold text-blue-300 uppercase tracking-wider">Module</th>
-                    <th className="p-3.5 font-bold text-gray-300 uppercase tracking-wider">Tech Stack</th>
-                    <th className="p-3.5 font-bold text-gray-300 uppercase tracking-wider">Role in BugChase</th>
-                    <th className="p-3.5 font-bold text-emerald-300 uppercase tracking-wider text-center">Status</th>
+                    <th className="p-4 font-bold text-blue-300 uppercase tracking-wider text-sm sm:text-base">Module</th>
+                    <th className="p-4 font-bold text-gray-300 uppercase tracking-wider text-sm sm:text-base">Tech Stack</th>
+                    <th className="p-4 font-bold text-gray-300 uppercase tracking-wider text-sm sm:text-base">Role in BugChase</th>
+                    <th className="p-4 font-bold text-emerald-300 uppercase tracking-wider text-center text-sm sm:text-base">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/[0.06]">
@@ -828,33 +829,33 @@ export default function Home() {
                     { name: "Asset Discovery", tech: "FastAPI + Celery", role: "Subdomain & port discovery microservice for company assets", status: "Optional Service" },
                   ].map((row, idx) => (
                     <tr key={idx} className="hover:bg-white/[0.02]">
-                      <td className="p-3.5 font-bold text-white flex items-center gap-2">
-                        <Bot className="w-4 h-4 text-blue-400" /> {row.name}
+                      <td className="p-4 font-bold text-white flex items-center gap-2.5">
+                        <Bot className="w-5 h-5 text-blue-400 shrink-0" /> {row.name}
                       </td>
-                      <td className="p-3.5 font-mono text-blue-300">{row.tech}</td>
-                      <td className="p-3.5 text-gray-300 leading-relaxed">{row.role}</td>
-                      <td className="p-3.5 text-center font-mono text-emerald-400 font-semibold">{row.status}</td>
+                      <td className="p-4 font-mono text-blue-300 text-sm sm:text-base">{row.tech}</td>
+                      <td className="p-4 text-gray-200 leading-relaxed">{row.role}</td>
+                      <td className="p-4 text-center font-mono text-emerald-400 font-bold whitespace-nowrap">{row.status}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
 
-            <GlassCard className="py-3 px-6 text-center border-amber-500/30 bg-amber-950/10">
-              <p className="text-xs text-amber-200 font-semibold flex items-center justify-center gap-2">
-                <AlertCircle className="w-4 h-4 text-amber-400" /> Important Examiner Note: AI assists triage; final decisions remain with human triagers &amp; companies.
+            <GlassCard className="py-4 px-8 text-center border-amber-500/30 bg-amber-950/10">
+              <p className="text-sm sm:text-base md:text-lg text-amber-200 font-semibold flex items-center justify-center gap-3">
+                <AlertCircle className="w-5 h-5 text-amber-400 shrink-0" /> Important Examiner Note: AI assists triage; final decisions remain with human triagers &amp; companies.
               </p>
             </GlassCard>
           </div>
         </div>
 
         {/* ── Slide 13: Tools and Technologies ───────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[12] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[12] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">Tools &amp; Technologies</h1>
-            <p className="text-xl text-blue-300 mb-8">Modern full-stack tech stack driving performance and security.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">Tools &amp; Technologies</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-8">Modern full-stack tech stack driving performance and security.</p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-left">
               {[
                 { layer: "Frontend Layer", tech: "React, TypeScript, Vite, Tailwind CSS, React Router, TanStack Query", icon: Cpu, color: "text-blue-400" },
                 { layer: "Backend Layer", tech: "Node.js, Express, Mongoose, JWT, Helmet, CORS, Socket.io", icon: Server, color: "text-emerald-400" },
@@ -863,12 +864,12 @@ export default function Home() {
                 { layer: "Payments & Financials", tech: "Stripe Wallet & Escrow Integration", icon: CreditCard, color: "text-indigo-400" },
                 { layer: "Cloud Services & Infra", tech: "Vercel (Client, Support, API), Cloudinary, Nodemailer, Hugging Face Spaces", icon: Globe, color: "text-red-400" },
               ].map((item) => (
-                <GlassCard key={item.layer} className="flex flex-col gap-3 p-5">
-                  <div className="flex items-center gap-2.5">
-                    <item.icon className={`w-5 h-5 ${item.color}`} />
-                    <h3 className="text-base font-bold text-white">{item.layer}</h3>
+                <GlassCard key={item.layer} className="flex flex-col gap-3 p-6">
+                  <div className="flex items-center gap-3">
+                    <item.icon className={`w-6 h-6 ${item.color} shrink-0`} />
+                    <h3 className="text-lg sm:text-xl font-bold text-white">{item.layer}</h3>
                   </div>
-                  <p className="text-xs text-gray-300 font-mono leading-relaxed">{item.tech}</p>
+                  <p className="text-sm sm:text-base text-gray-200 font-mono leading-relaxed">{item.tech}</p>
                 </GlassCard>
               ))}
             </div>
@@ -876,56 +877,56 @@ export default function Home() {
         </div>
 
         {/* ── Slide 14: System Workflows & Architecture ───────────────────── */}
-        <div ref={(el) => { slideRefs.current[13] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[13] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">System Workflows &amp; Architecture</h1>
-            <p className="text-xl text-blue-300 mb-6">Interactive view of core platform execution flows.</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4">System Workflows &amp; Architecture</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium mb-6">Interactive view of core platform execution flows.</p>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 text-left">
               {/* Workflow Navigation */}
-              <GlassCard className="p-4 flex flex-col gap-2">
-                <p className="text-xs font-mono uppercase text-gray-400 mb-2 font-semibold">Select Workflow</p>
+              <GlassCard className="p-4 sm:p-5 flex flex-col gap-2.5">
+                <p className="text-xs font-mono uppercase text-gray-300 mb-2 font-bold tracking-wider">Select Workflow</p>
                 {workflows.map((wf, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveWorkflow(idx)}
-                    className={`p-3 rounded-xl text-left text-xs transition-all flex items-center justify-between cursor-pointer ${
+                    className={`p-3.5 rounded-xl text-left text-sm sm:text-base transition-all flex items-center justify-between cursor-pointer ${
                       activeWorkflow === idx
-                        ? 'bg-blue-600/30 border border-blue-400/50 text-white font-semibold shadow-[0_0_15px_rgba(59,130,246,0.3)]'
-                        : 'bg-white/[0.02] border border-white/5 text-gray-400 hover:text-gray-200 hover:bg-white/[0.05]'
+                        ? 'bg-blue-600/30 border border-blue-400/50 text-white font-bold shadow-[0_0_20px_rgba(59,130,246,0.35)]'
+                        : 'bg-white/[0.02] border border-white/5 text-gray-300 hover:text-white hover:bg-white/[0.06]'
                     }`}
                   >
                     <span className="truncate pr-2">{wf.title}</span>
-                    <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${activeWorkflow === idx ? 'rotate-90 text-blue-400' : 'text-gray-600'}`} />
+                    <ChevronRight className={`w-4 h-4 shrink-0 transition-transform ${activeWorkflow === idx ? 'rotate-90 text-blue-400' : 'text-gray-500'}`} />
                   </button>
                 ))}
               </GlassCard>
 
               {/* Workflow Details */}
-              <GlassCard className="lg:col-span-2 p-6 flex flex-col justify-between border-blue-500/30">
+              <GlassCard className="lg:col-span-2 p-7 flex flex-col justify-between border-blue-500/30">
                 <div>
-                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
-                    <h3 className="text-lg font-bold text-white">{workflows[activeWorkflow].title}</h3>
-                    <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-5">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white">{workflows[activeWorkflow].title}</h3>
+                    <span className="text-xs sm:text-sm font-mono px-3.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 font-semibold">
                       Step-by-Step Flow
                     </span>
                   </div>
-                  <p className="text-sm text-gray-200 leading-relaxed font-sans mb-6">
+                  <p className="text-base sm:text-lg text-gray-100 leading-relaxed font-sans mb-6">
                     {workflows[activeWorkflow].desc}
                   </p>
                 </div>
 
                 <div className="space-y-4">
-                  <div className="p-3 rounded-xl bg-black/40 border border-white/10 text-xs font-mono text-blue-300">
+                  <div className="p-4 rounded-xl bg-black/40 border border-white/10 text-sm sm:text-base font-mono text-blue-300">
                     <span className="text-gray-400 font-sans">Underlying Stack:</span> {workflows[activeWorkflow].tech}
                   </div>
 
-                  <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                  <div className="flex items-center justify-between pt-3 border-t border-white/10">
                     <button
                       onClick={() => setSelectedImage({ src: "/systemArch.jpeg", alt: "BugChase System Architecture Diagram" })}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.05] border border-white/10 text-xs text-gray-200 hover:bg-white/10 transition-all cursor-pointer"
+                      className="flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-sm sm:text-base font-semibold text-gray-200 hover:bg-white/10 transition-all cursor-pointer"
                     >
-                      <Maximize2 className="w-3.5 h-3.5 text-blue-400" /> View System Architecture Diagram
+                      <Maximize2 className="w-4 h-4 text-blue-400" /> View System Architecture Diagram
                     </button>
                   </div>
                 </div>
@@ -935,49 +936,49 @@ export default function Home() {
         </div>
 
         {/* ── Slide 15: Conclusion & References ──────────────────────────── */}
-        <div ref={(el) => { slideRefs.current[14] = el; }} className="flex items-center justify-center min-h-screen px-4 snap-start snap-always pt-24 pb-12">
+        <div ref={(el) => { slideRefs.current[14] = el; }} className="flex items-center justify-center min-h-screen px-4 sm:px-6 snap-start snap-always pt-24 pb-12">
           <div className="max-w-6xl w-full text-center space-y-8">
-            <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">Conclusion &amp; References</h1>
-            <p className="text-xl text-blue-200 font-medium max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-2">Conclusion &amp; References</h1>
+            <p className="text-2xl sm:text-3xl text-blue-200 font-medium max-w-4xl mx-auto leading-relaxed">
               BugChase successfully delivers a production-grade crowdsourced security platform tailored for Pakistan.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
-              <GlassCard className="flex flex-col gap-3 p-6 border-blue-500/30">
-                <CheckCircle2 className="w-8 h-8 text-blue-400" />
-                <h3 className="text-base font-bold text-white">Full-Stack Completeness</h3>
-                <p className="text-xs text-gray-300 leading-relaxed">
+              <GlassCard className="flex flex-col gap-4 p-7 border-blue-500/30">
+                <CheckCircle2 className="w-9 h-9 text-blue-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white">Full-Stack Completeness</h3>
+                <p className="text-sm sm:text-base text-gray-200 leading-relaxed">
                   End-to-end implementation covering user auth, program creation, report lifecycle, WebSocket chat, escrow, and dispute management.
                 </p>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-3 p-6 border-emerald-500/30">
-                <Bot className="w-8 h-8 text-emerald-400" />
-                <h3 className="text-base font-bold text-white">AI-Assisted Triage</h3>
-                <p className="text-xs text-gray-300 leading-relaxed">
+              <GlassCard className="flex flex-col gap-4 p-7 border-emerald-500/30">
+                <Bot className="w-9 h-9 text-emerald-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white">AI-Assisted Triage</h3>
+                <p className="text-sm sm:text-base text-gray-200 leading-relaxed">
                   FastAPI microservices delivering duplicate detection, CVSS v3.1 estimation, and generative summaries while empowering human decisions.
                 </p>
               </GlassCard>
 
-              <GlassCard className="flex flex-col gap-3 p-6 border-purple-500/30">
-                <FileText className="w-8 h-8 text-purple-400" />
-                <h3 className="text-base font-bold text-white">Project README Note</h3>
-                <p className="text-xs text-gray-300 leading-relaxed">
+              <GlassCard className="flex flex-col gap-4 p-7 border-purple-500/30">
+                <FileText className="w-9 h-9 text-purple-400 shrink-0" />
+                <h3 className="text-lg sm:text-xl font-bold text-white">Project README Note</h3>
+                <p className="text-sm sm:text-base text-gray-200 leading-relaxed">
                   Detailed environment setup, microservice guides, and architecture references are available in the project README.
                 </p>
               </GlassCard>
             </div>
 
             {/* Final Q&A Callout */}
-            <div className="pt-4">
+            <div className="pt-6">
               <div className="relative flex justify-center mb-4">
-                <div className="absolute inset-0 w-28 h-28 bg-blue-500/10 rounded-full blur-2xl animate-pulse mx-auto"></div>
-                <div className="w-20 h-20 rounded-full border border-white/10 bg-black/60 flex items-center justify-center relative shadow-2xl">
-                  <span className="text-3xl text-blue-400 font-mono animate-pulse">?</span>
+                <div className="absolute inset-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl animate-pulse mx-auto"></div>
+                <div className="w-24 h-24 rounded-full border border-white/10 bg-black/60 flex items-center justify-center relative shadow-2xl">
+                  <span className="text-4xl text-blue-400 font-mono animate-pulse">?</span>
                 </div>
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white">Questions &amp; Discussion</h2>
-              <p className="text-gray-400 text-xs font-mono tracking-widest uppercase mt-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">Questions &amp; Discussion</h2>
+              <p className="text-gray-300 text-sm sm:text-base font-mono tracking-widest uppercase mt-3 font-semibold">
                 Thank you for your time · BugChase Capstone-II Team
               </p>
             </div>
@@ -1003,7 +1004,7 @@ export default function Home() {
           </button>
           <div className="relative max-w-[92vw] max-h-[92vh] p-4 flex flex-col items-center gap-3" onClick={(e) => e.stopPropagation()}>
             <Image src={selectedImage.src} alt={selectedImage.alt} width={1200} height={800} className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl object-contain border border-white/10" />
-            <p className="text-xs text-gray-400 font-mono">{selectedImage.alt}</p>
+            <p className="text-sm text-gray-300 font-mono">{selectedImage.alt}</p>
           </div>
         </div>
       )}
@@ -1011,19 +1012,19 @@ export default function Home() {
       {/* Capstone-I Feedback Document Modal */}
       {showFeedbackModal && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6"
           onClick={() => setShowFeedbackModal(false)}
           style={{ zIndex: 9999 }}
         >
           <div
-            className="relative max-w-3xl w-full bg-slate-950 border border-blue-500/30 rounded-3xl p-6 md:p-8 shadow-[0_0_50px_rgba(59,130,246,0.2)] text-left flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
+            className="relative max-w-4xl w-full bg-slate-950 border border-blue-500/30 rounded-3xl p-6 sm:p-10 shadow-[0_0_60px_rgba(59,130,246,0.25)] text-left flex flex-col gap-6 max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setShowFeedbackModal(false)}
               className="absolute top-6 right-6 text-gray-400 hover:text-white p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -1031,41 +1032,41 @@ export default function Home() {
             {/* Official Header */}
             <div className="border-b border-white/10 pb-4">
               <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 rounded-xl bg-blue-500/20 border border-blue-500/30">
-                  <Award className="w-6 h-6 text-blue-400" />
+                <div className="p-2.5 rounded-xl bg-blue-500/20 border border-blue-500/30">
+                  <Award className="w-7 h-7 text-blue-400" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-white">GIFT University Gujranwala</h2>
-                  <p className="text-xs text-blue-300 font-mono">Department of Computer Science · FYP Evaluation Panel</p>
+                  <h2 className="text-xl font-bold text-white">GIFT University Gujranwala</h2>
+                  <p className="text-sm text-blue-300 font-mono">Department of Computer Science · FYP Evaluation Panel</p>
                 </div>
               </div>
-              <h1 className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300 mt-2">
+              <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300 mt-2">
                 Capstone-I Final Evaluation &amp; Feedback Document
               </h1>
-              <p className="text-xs text-gray-400 font-mono mt-1">Academic Year 2025-2026 · Project Ref #FYP-2025-BUGCHASE</p>
+              <p className="text-sm text-gray-400 font-mono mt-1">Academic Year 2025-2026 · Project Ref #FYP-2025-BUGCHASE</p>
             </div>
 
             {/* Project Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono bg-white/[0.02] border border-white/5 p-4 rounded-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm font-mono bg-white/[0.02] border border-white/5 p-5 rounded-2xl">
               <div>
                 <span className="text-gray-400 block">Project Title:</span>
-                <span className="text-white font-bold text-sm">BugChase</span>
-                <span className="text-gray-300 block text-[11px]">Bug Bounty &amp; Disclosure Platform</span>
+                <span className="text-white font-bold text-base">BugChase</span>
+                <span className="text-gray-300 block text-xs">Bug Bounty &amp; Disclosure Platform</span>
               </div>
               <div>
                 <span className="text-gray-400 block">Evaluation Result:</span>
-                <span className="text-emerald-400 font-bold text-sm">APPROVED FOR CAPSTONE-II</span>
-                <span className="text-emerald-300/80 block text-[11px]">Grade: A / Supervisor Recommended</span>
+                <span className="text-emerald-400 font-bold text-base">APPROVED FOR CAPSTONE-II</span>
+                <span className="text-emerald-300/80 block text-xs">Grade: A / Supervisor Recommended</span>
               </div>
             </div>
 
             {/* Unedited Panel Action Items */}
-            <div className="space-y-3 text-xs">
-              <h3 className="text-sm font-bold text-white flex items-center gap-2 border-b border-white/10 pb-2">
-                <FileCheck className="w-4 h-4 text-blue-400" /> Panel Recommendations &amp; Supervisor Directives
+            <div className="space-y-4 text-sm sm:text-base">
+              <h3 className="text-base sm:text-lg font-bold text-white flex items-center gap-2 border-b border-white/10 pb-2">
+                <FileCheck className="w-5 h-5 text-blue-400" /> Panel Recommendations &amp; Supervisor Directives
               </h3>
 
-              <div className="space-y-2.5">
+              <div className="space-y-3">
                 {[
                   { title: "1. Security & Authentication Architecture", text: "Client-side checks are insufficient. The backend must strictly validate tokens, handle tokenVersion invalidation on password change, enforce Redis logout blacklists, and handle 2FA pending scopes." },
                   { title: "2. Multi-Role Authorization & Isolation", text: "Differentiate clearly between Researcher, Company, Triager, Support, and Admin actors. Enforce strict server middleware policy (restrictTo) to prevent privilege confusion." },
@@ -1073,16 +1074,16 @@ export default function Home() {
                   { title: "4. Production System Completeness", text: "Incorporate financial escrow mechanisms (Stripe), support dispute handling portal, researcher KYC identity verification, and public Hall of Fame." },
                   { title: "5. Comprehensive Technical Documentation", text: "Provide thorough root README and AI microservice setup documentation for reproducible examiner evaluation." },
                 ].map((item, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 text-gray-200">
-                    <h4 className="font-bold text-blue-300 mb-1">{item.title}</h4>
-                    <p className="text-gray-300 text-[11.5px] leading-relaxed">{item.text}</p>
+                  <div key={i} className="p-4 rounded-xl bg-white/[0.03] border border-white/10 text-gray-200">
+                    <h4 className="font-bold text-blue-300 mb-1 text-sm sm:text-base">{item.title}</h4>
+                    <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">{item.text}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Footer Footer */}
-            <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[11px] text-gray-400 font-mono">
+            <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs sm:text-sm text-gray-400 font-mono">
               <span>Status: Unedited Evaluation Record</span>
               <span className="text-blue-400 font-bold">Verified Capstone-I Output</span>
             </div>
